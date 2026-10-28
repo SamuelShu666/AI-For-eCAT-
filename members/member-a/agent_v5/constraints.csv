@@ -1,0 +1,9 @@
+rule_id,source_type,rule_type,rule_text,threshold,applies_to,evidence_chunk,paper_id,page,status,note
+R01,literature,电位约束,反向电流下阴极电位不得超过 0.6 V vs RHE；超过会生成不可逆的 β-Ni(OH)₂,0.6 V vs RHE,阴极,P03_p1_011,P03,1,已核验,
+R02,literature,电位约束,反向电流恒流测试中裸 Ni 电位可升至 1.4 V vs RHE；Pb/Ni 仍保持在 0.6 V 以下,1.4 V vs RHE,阴极,P06_p5_040,P06,5,已核验,
+R03,literature,停机策略,停机期间保持电解液循环会增大反向电流；据此建议停机停泵,泵关,电解槽,P01_p1_003,P01,1,已核验,原文为事实陈述；停泵是操作建议
+R04,literature,工况约束,高温运行会增大反向电流；据此建议停机降温,温度越低越好,电解槽,P01_p1_003,P01,1,已核验,原文为事实陈述；降温是操作建议
+R05,literature,基准电位,正常工作电位约为阳极 1.7 V、阴极 -0.2 V vs RHE,1.7 / -0.2 V,电极,P04_p3_027,P04,3,已核验,
+R06,literature,指标定义,RCSF 用反向电流前后过电位之比衡量；数值越高越耐受,RCSF,电极,P06_p6_051,P06,6,已核验,公式见 P06_p6_052 与 P03_p3_024
+R07,dataset,候选约束,推荐候选必须属于 180 条候选池,180 选 1,候选,,-,,已核验,来自数据表
+R08,dataset,物料守恒,元素分数之和必须等于 1,1.00,候选,,-,,已核验,180 条全部验证通过

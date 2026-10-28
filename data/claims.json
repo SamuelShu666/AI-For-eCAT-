@@ -1,0 +1,181 @@
+[
+ {
+  "id": "K000",
+  "text": "裸Ni催化剂经反向电流循环氧化后HER性能变差,过电位由278 mV升至310 mV",
+  "elements": [
+   "Ni"
+  ],
+  "effect": "hurt_stability",
+  "source": {
+   "chunk": "L0724",
+   "file": "反向电流机理+保护策略/Adv Funct Materials - 2024 - Jung - Reverse‐Current Tolerance for Hydrogen Evolution Reaction Activity of Lead‐Decorated.pdf",
+   "page": 3,
+   "quote": " of Ni hydroxide or oxide phases (such as 𝛽-Ni(OH)2 and NiO) occurred sufficiently in 1 m KOH.[6–7,11] As shown in Figure 2a, the bare Ni catalyst exhibited a 278 mV overpotential at a current density of −10 mA cm−2 before the RC flow. The HER performance of the bare Ni catalyst "
+  }
+ },
+ {
+  "id": "K001",
+  "text": "在Ni上沉积Sn、Zn等金属可缓解反向电流下Ni催化剂的退化",
+  "elements": [
+   "Ni",
+   "Sn",
+   "Zn"
+  ],
+  "effect": "promote_stability",
+  "source": {
+   "chunk": "L0724",
+   "file": "反向电流机理+保护策略/Adv Funct Materials - 2024 - Jung - Reverse‐Current Tolerance for Hydrogen Evolution Reaction Activity of Lead‐Decorated.pdf",
+   "page": 3,
+   "quote": " of Ni hydroxide or oxide phases (such as 𝛽-Ni(OH)2 and NiO) occurred sufficiently in 1 m KOH.[6–7,11] As shown in Figure 2a, the bare Ni catalyst exhibited a 278 mV overpotential at a current density of −10 mA cm−2 before the RC flow. The HER performance of the bare Ni catalyst "
+  }
+ },
+ {
+  "id": "K002",
+  "text": "Pb/Ni催化剂在反向电流循环中HER活性持续提升,第10次循环后过电位降至231 mV",
+  "elements": [
+   "Ni"
+  ],
+  "effect": "promote_activity",
+  "source": {
+   "chunk": "L0724",
+   "file": "反向电流机理+保护策略/Adv Funct Materials - 2024 - Jung - Reverse‐Current Tolerance for Hydrogen Evolution Reaction Activity of Lead‐Decorated.pdf",
+   "page": 3,
+   "quote": " of Ni hydroxide or oxide phases (such as 𝛽-Ni(OH)2 and NiO) occurred sufficiently in 1 m KOH.[6–7,11] As shown in Figure 2a, the bare Ni catalyst exhibited a 278 mV overpotential at a current density of −10 mA cm−2 before the RC flow. The HER performance of the bare Ni catalyst "
+  }
+ },
+ {
+  "id": "K003",
+  "text": "反向电流时阴极材料可能被氧化,阳极发生氧还原,改变局部pH等环境",
+  "elements": [],
+  "effect": "hurt_stability",
+  "source": {
+   "chunk": "L1015",
+   "file": "反向电流机理+保护策略/Small Methods - 2025 - Peng - Strategies and Countermeasures Against Reverse Current for Enhanced Durability in Water.pdf",
+   "page": 2,
+   "quote": "n, manifesting as a reverse current. A secondary mechanism involves the permeation of reactant gases through the membrane. This crossover of oxygen to the anode and hydrogen to the cathode creates an internal short-circuit con￾dition, which drives parasitic reactions that also co"
+  }
+ },
+ {
+  "id": "K004",
+  "text": "反向电流与催化剂上发生的逆向氧化还原反应相关,会影响电催化剂寿命",
+  "elements": [],
+  "effect": "hurt_stability",
+  "source": {
+   "chunk": "L0602",
+   "file": "反向电流机理+保护策略/1-s2.0-S0378775322004633-main.pdf",
+   "page": 1,
+   "quote": " Experimental and theoretical studies of the reverse current phenomenon. • Effects of operating/standby parameters and electrode materials on reverse current. • Temperature and cycling of electrolyte during shutdown affect the reverse current. • Electrodes’ potentials during shut"
+  }
+ },
+ {
+  "id": "K005",
+  "text": "在3D纳米结构Ni阵列上引入亲氧过渡金属可调控结合能力，加速碱性HER",
+  "elements": [
+   "Ni"
+  ],
+  "effect": "promote_activity",
+  "source": {
+   "chunk": "L0964",
+   "file": "反向电流机理+保护策略/cathodic-protection-system-against-a-reverse-current-after-shut-down-in-zero-gap-alkaline-water-electrolysis.pdf",
+   "page": 9,
+   "quote": ", 2, 134−141. (15) Zhu, J.; Hu, L.; Zhao, P.; Lee, L. Y. S.; Wong, K. Y. Recent Advances in Electrocatalytic Hydrogen Evolution Using Nano￾particles. Chem. Rev. 2020, 120, 851−918. (16) Chen, Z.; Duan, X.; Wei, W.; Wang, S.; Ni, B.-J. Recent advances in transition metal-based ele"
+  }
+ },
+ {
+  "id": "K006",
+  "text": "在Cu掺杂Ni中植入Ni-O-VOx位点可实现低过电位的碱性HER",
+  "elements": [
+   "Ni",
+   "Cu"
+  ],
+  "effect": "promote_activity",
+  "source": {
+   "chunk": "L0964",
+   "file": "反向电流机理+保护策略/cathodic-protection-system-against-a-reverse-current-after-shut-down-in-zero-gap-alkaline-water-electrolysis.pdf",
+   "page": 9,
+   "quote": ", 2, 134−141. (15) Zhu, J.; Hu, L.; Zhao, P.; Lee, L. Y. S.; Wong, K. Y. Recent Advances in Electrocatalytic Hydrogen Evolution Using Nano￾particles. Chem. Rev. 2020, 120, 851−918. (16) Chen, Z.; Duan, X.; Wei, W.; Wang, S.; Ni, B.-J. Recent advances in transition metal-based ele"
+  }
+ },
+ {
+  "id": "K007",
+  "text": "反向电流可导致金属Ni氧化、合金元素溶解并形成钝化层,严重损害Ni基阴极的长期性能和耐久性",
+  "elements": [
+   "Ni"
+  ],
+  "effect": "hurt_stability",
+  "source": {
+   "chunk": "L1018",
+   "file": "反向电流机理+保护策略/Small Methods - 2025 - Peng - Strategies and Countermeasures Against Reverse Current for Enhanced Durability in Water.pdf",
+   "page": 3,
+   "quote": "ent conditions, which can oc￾cur during intermittent operation or shutdown of the system. Re￾verse current can lead to the oxidation of the metallic Ni species, the dissolution of alloying elements, and the formation of passi￾vating layers on the electrode surface, all of which s"
+  }
+ },
+ {
+  "id": "K008",
+  "text": "反向电流下阴极表面金属Ni发生电化学氧化,生成Ni(OH)2,是Ni基阴极降解转变的机理起点",
+  "elements": [
+   "Ni"
+  ],
+  "effect": "hurt_stability",
+  "source": {
+   "chunk": "L1018",
+   "file": "反向电流机理+保护策略/Small Methods - 2025 - Peng - Strategies and Countermeasures Against Reverse Current for Enhanced Durability in Water.pdf",
+   "page": 3,
+   "quote": "ent conditions, which can oc￾cur during intermittent operation or shutdown of the system. Re￾verse current can lead to the oxidation of the metallic Ni species, the dissolution of alloying elements, and the formation of passi￾vating layers on the electrode surface, all of which s"
+  }
+ },
+ {
+  "id": "K009",
+  "text": "W、Mo掺杂改变Ni周围电子密度,使Ni更难被氧化,提升抗反向电流能力",
+  "elements": [
+   "Ni"
+  ],
+  "effect": "promote_stability",
+  "source": {
+   "chunk": "L1043",
+   "file": "反向电流机理+保护策略/Small Methods - 2025 - Peng - Strategies and Countermeasures Against Reverse Current for Enhanced Durability in Water.pdf",
+   "page": 7,
+   "quote": " rounds of incremental voltage increase, the current intensity changed only slightly, proving that the reverse current has a negligible effect on the electrode material. Then materials are put into a more hazardous environment, alternating high current density (1.5A cm−2) as well"
+  }
+ },
+ {
+  "id": "K010",
+  "text": "Ni表面的CoP优先氧化为磷酸钴附着于表面,对Ni起保护作用",
+  "elements": [
+   "Ni"
+  ],
+  "effect": "promote_stability",
+  "source": {
+   "chunk": "L1043",
+   "file": "反向电流机理+保护策略/Small Methods - 2025 - Peng - Strategies and Countermeasures Against Reverse Current for Enhanced Durability in Water.pdf",
+   "page": 7,
+   "quote": " rounds of incremental voltage increase, the current intensity changed only slightly, proving that the reverse current has a negligible effect on the electrode material. Then materials are put into a more hazardous environment, alternating high current density (1.5A cm−2) as well"
+  }
+ },
+ {
+  "id": "K011",
+  "text": "WMo-CoP@NM经高低电流密度循环及启停测试后电压变化相对稳定",
+  "elements": [
+   "Ni"
+  ],
+  "effect": "promote_stability",
+  "source": {
+   "chunk": "L1043",
+   "file": "反向电流机理+保护策略/Small Methods - 2025 - Peng - Strategies and Countermeasures Against Reverse Current for Enhanced Durability in Water.pdf",
+   "page": 7,
+   "quote": " rounds of incremental voltage increase, the current intensity changed only slightly, proving that the reverse current has a negligible effect on the electrode material. Then materials are put into a more hazardous environment, alternating high current density (1.5A cm−2) as well"
+  }
+ },
+ {
+  "id": "K012",
+  "text": "极化整流器可阻断停机时的反向电流,保护非贵金属催化剂免受反向电流氧化,延长电解槽寿命",
+  "elements": [],
+  "effect": "method",
+  "source": {
+   "chunk": "L1068",
+   "file": "反向电流机理+保护策略/Small Methods - 2025 - Peng - Strategies and Countermeasures Against Reverse Current for Enhanced Durability in Water.pdf",
+   "page": 13,
+   "quote": " systems to prevent reverse current damage during shutdown or power fluctuations. When the external power supply is inter￾rupted, the potential difference between the electrodes may lead to reverse current flow, causing corrosion or degradation of the electrode materials. The pol"
+  }
+ }
+]

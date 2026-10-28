@@ -1,0 +1,98 @@
+{
+  "dataset": {
+    "title": "eCAT · Ni-RC v2",
+    "dataset_id": "ni_rc_v2_180",
+    "source_file": "Ni_RC_180_candidate_dataset_v2.xlsx",
+    "sha256": "333fa748b4bdfc9c56b0a929f4022ccfa37248c2f06b21c6011b311096d630ab",
+    "generated_at": "2026-10-27T13:55:04.100662+00:00",
+    "legacy_note": "旧版 212 条槽电压 Demo 保留在 demo/；本页仅使用 180 条 Ni-RC v2，不与旧指标混算。",
+    "evidence_note": "运行引用来自成员 A 原始 JSONL；检索结果为本页离线重放，原始 Chroma/MiniLM 向量库未随交付。",
+    "rank_note": "rank/top10 在本页仅作评测展示；本适配层不把排名写入新的决策查询。"
+  },
+  "space": {
+    "n": 180,
+    "metric": "Δη_RC",
+    "unit": "mV",
+    "direction": "lower",
+    "top_k": 18,
+    "top_threshold": 10.8,
+    "global_best": 5.8,
+    "global_best_candidate": {
+      "id": "C024",
+      "composition": "Co31Cr15Fe13Mo32Ni9"
+    },
+    "elements": [
+      "Ni",
+      "Al",
+      "Au",
+      "Co",
+      "Cr",
+      "Cu",
+      "Fe",
+      "Ir",
+      "Mg",
+      "Mn",
+      "Mo",
+      "Pd",
+      "Pt",
+      "Rh",
+      "Ru",
+      "W",
+      "Zn"
+    ],
+    "systems": 49,
+    "conditions": [
+      {
+        "name": "评价指标",
+        "value": "反向电流应力前后HER过电位变化量 Δη_RC（mV），越小越好"
+      },
+      {
+        "name": "电密",
+        "value": "|j| = 10 mA cm⁻²"
+      },
+      {
+        "name": "电解液",
+        "value": "1 M KOH"
+      },
+      {
+        "name": "测试体系",
+        "value": "三电极体系"
+      },
+      {
+        "name": "参比电极",
+        "value": "Hg/HgO（1.0 M NaOH），换算并校准至RHE"
+      },
+      {
+        "name": "对电极",
+        "value": "石墨棒"
+      },
+      {
+        "name": "反向电流应力",
+        "value": "恒电流CP：+0.1 mA cm⁻²，持续30 min"
+      },
+      {
+        "name": "测试流程",
+        "value": "应力前LSV → 反向电流CP → 应力后LSV → 计算Δη_RC"
+      },
+      {
+        "name": "控制要求",
+        "value": "基底、几何面积、催化剂负载量、温度、扫描速率和iR补偿方式保持一致"
+      }
+    ]
+  },
+  "validation": {
+    "candidate_count": 180,
+    "unique_ids": true,
+    "fraction_sums": true,
+    "composition_match": true,
+    "run_count": 3,
+    "all_runs_20_unique": true,
+    "unique_citations": 11,
+    "resolved_citations": 11,
+    "first_two_same_position": 17,
+    "chunk_lookup_count": 1490
+  },
+  "featured": "run_20261027_112146",
+  "output": "demo_v2\\data.js",
+  "restore": "旧版入口为 demo/index.html；备份位于 backups/20261027_memberB/。"
+}

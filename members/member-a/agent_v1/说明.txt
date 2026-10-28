@@ -1,0 +1,16 @@
+eCAT 本轮交付说明
+
+1) agent_graph.py / agent_tools.py
+   LangGraph 六节点闭环 + 候选池读取（真值只对 execute 可见）
+2) constraints.csv / element_priors.csv
+   8 条文献硬约束 + 17 元素先验，均已回原文核验
+3) runs/*.jsonl
+   3 组 x 20 次实验的逐轮记录
+4) figures/agent_vs_random.png
+   左图：历史最佳 dEta_RC 曲线；右图：累计 Top10 发现数
+
+复现：
+   python agent_graph.py      # 跑一轮闭环
+   python plot_results.py     # 重新画图
+
+未打包：.env（含密钥）、chroma_her_db_v4/、model_cache/

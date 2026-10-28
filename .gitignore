@@ -1,24 +1,44 @@
-# 密钥
+# 密钥与本地配置
 .env
+.env.*
+!.env.example
 *.key
 
 # Python
 __pycache__/
-*.pyc
+*.py[cod]
 .venv/
 venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
 
-# 大文件/可重建
+# 可重建文件
 chroma_her_db*/
 model_cache/
 .mplcache/
-
-# 原始 PDF 与中间产物
 pdf_input/
 new_refs/
 output_md/
 chunk_output/
+
+# 原始论文与压缩包：版权/体积原因不入库
+相关文献/
 *.zip
 
-# 备份
-her_chunks_v5_raw*.csv
+# 本地工作区与备份
+.local/
+.workbuddy/
+backups/
+WB/
+*.genie
+
+# 内部记录
+members/member-a/聊天记录.txt
+
+# 系统与编辑器
+.DS_Store
+Thumbs.db
+~$*
+.idea/
+.vscode/

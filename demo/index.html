@@ -1,0 +1,670 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>eCAT · 催化材料记忆闭环 Agent</title>
+<style>
+:root{
+  --bg:#F5F4EF; --paper:#FBFAF6; --ink:#1E2422; --ink2:#55605C; --ink3:#8A928E;
+  --line:#E2DFD5; --teal:#176B61; --teal2:#2E8C7F; --tealbg:#E4EFEC;
+  --gold:#B58B4E; --goldbg:#F3EADB; --rose:#B4553F; --rosebg:#F5E3DD;
+  --lit:#B58B4E; --exp:#176B61; --dec:#4F5D8A; --shared:#8A928E;
+  --serif:"Noto Serif SC","Source Han Serif SC","Songti SC","STSong","SimSun",serif;
+  --sans:"PingFang SC","HarmonyOS Sans SC","Microsoft YaHei",system-ui,sans-serif;
+  --mono:"JetBrains Mono","Cascadia Mono",Consolas,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased}
+.num{font-variant-numeric:tabular-nums;font-family:var(--mono)}
+a{color:inherit}
+.wrap{max-width:1240px;margin:0 auto;padding:0 40px}
+
+/* nav */
+nav{position:sticky;top:0;z-index:20;background:rgba(245,244,239,.86);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;align-items:center;height:58px;gap:36px}
+.brand{font-family:var(--serif);font-weight:700;font-size:19px;letter-spacing:.02em}
+.brand i{font-style:normal;color:var(--teal)}
+nav .links{display:flex;gap:26px;font-size:14px;color:var(--ink2)}
+nav .links a{text-decoration:none;padding:4px 0;border-bottom:1.5px solid transparent}
+nav .links a:hover{color:var(--ink);border-color:var(--gold)}
+nav .tag{margin-left:auto;font-size:12px;color:var(--ink3);letter-spacing:.08em}
+
+/* hero */
+.hero{padding:88px 0 64px;border-bottom:1px solid var(--line)}
+.eyebrow{font-size:12px;letter-spacing:.22em;color:var(--gold);text-transform:uppercase;margin-bottom:22px}
+.hero h1{font-family:var(--serif);font-weight:700;font-size:54px;line-height:1.18;letter-spacing:.01em;max-width:900px}
+.hero h1 em{font-style:normal;color:var(--teal)}
+.hero p.lead{margin-top:24px;max-width:760px;color:var(--ink2);font-size:17px}
+.stats{display:grid;grid-template-columns:repeat(5,1fr);margin-top:56px;border-top:1px solid var(--ink)}
+.stat{padding:20px 20px 0 0}
+.stat+.stat{padding-left:20px;border-left:1px solid var(--line)}
+.stat b{display:block;font-family:var(--serif);font-size:38px;font-weight:600;line-height:1.1}
+.stat b small{font-size:16px;color:var(--ink3);font-weight:400;margin-left:3px}
+.stat span{font-size:13px;color:var(--ink2)}
+.stat.hl b{color:var(--teal)}
+
+section{padding:84px 0;border-bottom:1px solid var(--line)}
+.sec-head{display:grid;grid-template-columns:120px 1fr;gap:24px;margin-bottom:40px}
+.sec-no{font-family:var(--serif);font-size:15px;color:var(--gold);padding-top:10px;border-top:1px solid var(--gold)}
+.sec-head h2{font-family:var(--serif);font-size:32px;font-weight:600;line-height:1.3}
+.sec-head p{color:var(--ink2);margin-top:10px;max-width:760px}
+
+/* architecture */
+.arch{display:grid;grid-template-columns:1fr 1.25fr 1fr;gap:0;border:1px solid var(--line);background:var(--paper)}
+.arch>div{padding:28px 26px}
+.arch>div+div{border-left:1px solid var(--line)}
+.arch h3{font-family:var(--serif);font-size:18px;font-weight:600;margin-bottom:6px}
+.arch .k{font-size:12px;letter-spacing:.14em;color:var(--ink3);margin-bottom:14px}
+.arch ul{list-style:none;font-size:14px;color:var(--ink2)}
+.arch li{padding:8px 0;border-top:1px dashed var(--line);display:flex;gap:10px}
+.arch li b{color:var(--ink);font-weight:600;min-width:88px}
+.wall{display:flex;align-items:center;gap:10px;margin-top:18px;padding:10px 12px;background:var(--rosebg);color:var(--rose);font-size:13px}
+.wall svg{flex:none}
+
+/* loop player */
+.player{display:grid;grid-template-columns:400px 1fr;gap:28px}
+.ringbox{background:var(--paper);border:1px solid var(--line);padding:22px;position:relative}
+.ringbox .rtitle{display:flex;justify-content:space-between;align-items:baseline}
+.rtitle h4{font-family:var(--serif);font-size:16px;font-weight:600}
+.rtitle .num{color:var(--ink3);font-size:12px}
+#ring{width:100%;height:auto;display:block;margin:6px 0 4px}
+.ring-node circle.bg{fill:var(--paper);stroke:var(--line);stroke-width:1.5;transition:all .35s}
+.ring-node text{font-size:12.5px;fill:var(--ink2);transition:fill .35s}
+.ring-node text.cn{font-size:14px;font-weight:600;fill:var(--ink)}
+.ring-node.on circle.bg{fill:var(--teal);stroke:var(--teal)}
+.ring-node.on text{fill:#fff}
+.ring-node.done circle.bg{stroke:var(--teal2)}
+.controls{display:flex;align-items:center;gap:10px;margin-top:6px}
+.btn{border:1px solid var(--ink);background:var(--ink);color:#fff;font:inherit;font-size:13px;padding:7px 14px;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.btn.ghost{background:transparent;color:var(--ink)}
+.btn:hover{background:var(--teal);border-color:var(--teal);color:#fff}
+.btn:focus-visible,.rounds button:focus-visible,select:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.rounds{display:grid;grid-template-columns:repeat(8,1fr);gap:4px;margin-top:16px}
+.rounds button{border:1px solid var(--line);background:var(--bg);font:inherit;font-size:12px;padding:6px 0;cursor:pointer;color:var(--ink2);font-family:var(--mono)}
+.rounds button.cur{background:var(--ink);color:#fff;border-color:var(--ink)}
+.rounds button.past{border-color:var(--teal2);color:var(--teal)}
+.bestbox{margin-top:18px;padding-top:16px;border-top:1px solid var(--line);display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.bestbox div span{display:block;font-size:12px;color:var(--ink3)}
+.bestbox div b{font-family:var(--serif);font-size:22px;font-weight:600}
+.bestbox .teal{color:var(--teal)}
+
+.stage{background:var(--paper);border:1px solid var(--line);display:flex;flex-direction:column;min-height:620px}
+.stage-top{padding:22px 26px;border-bottom:1px solid var(--line)}
+.node-label{font-size:12px;letter-spacing:.16em;color:var(--gold)}
+.node-title{font-family:var(--serif);font-size:22px;font-weight:600;margin-top:4px}
+.node-text{color:var(--ink2);margin-top:8px;font-size:14.5px;min-height:48px}
+.hyp{margin-top:14px;padding:14px 16px;border-left:3px solid var(--teal);background:var(--tealbg);font-family:var(--serif);font-size:16px;line-height:1.6}
+.hyp small{display:block;font-family:var(--sans);font-size:12px;color:var(--teal);margin-bottom:4px;letter-spacing:.08em}
+.verdict{display:inline-block;font-size:12px;padding:2px 9px;margin-left:8px;font-family:var(--sans);vertical-align:2px}
+.v-supported{background:var(--tealbg);color:var(--teal);border:1px solid var(--teal2)}
+.v-refuted{background:var(--rosebg);color:var(--rose);border:1px solid var(--rose)}
+.v-inconclusive{background:var(--goldbg);color:#8a6a35;border:1px solid var(--gold)}
+.v-open{background:var(--bg);color:var(--ink3);border:1px solid var(--line)}
+.note{font-size:13.5px;color:var(--ink2);margin-top:8px}
+
+table.picks{width:100%;border-collapse:collapse;font-size:13.5px}
+.picks th{text-align:left;font-weight:500;font-size:12px;color:var(--ink3);padding:10px 12px;border-bottom:1px solid var(--line);letter-spacing:.06em}
+.picks td{padding:11px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+.picks tr{transition:background .3s}
+.picks tr.flash{background:var(--goldbg)}
+.comp{font-family:var(--mono);font-size:13px;font-weight:600;white-space:nowrap}
+.role{font-size:11px;padding:1px 7px;border:1px solid var(--line);color:var(--ink2);white-space:nowrap}
+.role.exploit{border-color:var(--teal2);color:var(--teal)}
+.role.explore{border-color:var(--gold);color:#8a6a35}
+.reason{color:var(--ink2);max-width:360px}
+.chips{display:flex;flex-wrap:wrap;gap:4px;margin-top:5px}
+.chip{font-family:var(--mono);font-size:11px;padding:1px 6px;cursor:help;border:1px solid}
+.chip.k{background:var(--goldbg);border-color:#e2cfae;color:#7d5d2c}
+.chip.x{background:var(--tealbg);border-color:#bcd8d2;color:var(--teal)}
+.volt{font-family:var(--mono);white-space:nowrap}
+.volt .m{font-weight:600}
+.volt .p{color:var(--ink3);font-size:12px;display:block}
+.volt.top .m{color:var(--teal)}
+.volt.hidden .m{color:var(--ink3);letter-spacing:.2em}
+.star{color:var(--gold)}
+
+/* graph */
+.graphbox{display:grid;grid-template-columns:1fr 300px;border:1px solid var(--line);background:var(--paper)}
+#graph{width:100%;height:600px;display:block;cursor:grab}
+#graph .e{stroke:#cfcabd;stroke-width:.7;fill:none;transition:opacity .4s}
+#graph .e.CITES{stroke:var(--gold);stroke-opacity:.55}
+#graph .e.SUPPORTS{stroke:var(--teal);stroke-width:1.3}
+#graph .e.REFUTES{stroke:var(--rose);stroke-width:1.3}
+#graph .e.INCONCLUSIVE{stroke:var(--gold);stroke-dasharray:3 2}
+#graph .n{transition:opacity .4s, r .3s;cursor:pointer;stroke:var(--paper);stroke-width:1.2}
+#graph .dim{opacity:.08}
+#graph .hide{opacity:0;pointer-events:none}
+#graph .glabel{font-size:11px;fill:var(--ink2);pointer-events:none;font-family:var(--serif)}
+#graph .band{font-size:12px;letter-spacing:.2em;fill:var(--ink3)}
+.gside{border-left:1px solid var(--line);padding:22px;font-size:13.5px;display:flex;flex-direction:column;gap:16px}
+.legend div{display:flex;align-items:center;gap:8px;padding:3px 0;color:var(--ink2)}
+.legend i{width:10px;height:10px;border-radius:50%;display:inline-block}
+.legend .cnt{margin-left:auto;font-family:var(--mono);color:var(--ink)}
+.inspect{border-top:1px solid var(--line);padding-top:14px;flex:1}
+.inspect h5{font-size:12px;color:var(--ink3);letter-spacing:.12em;font-weight:500;margin-bottom:8px}
+.inspect .t{font-family:var(--serif);font-size:15px;line-height:1.55}
+.inspect .meta{font-size:12px;color:var(--ink3);margin-top:8px;word-break:break-all}
+.gctl{display:flex;gap:8px;align-items:center;font-size:13px;color:var(--ink2)}
+.gctl input{flex:1;accent-color:var(--teal)}
+
+/* benchmark */
+.bench{display:grid;grid-template-columns:1.5fr 1fr;gap:28px}
+.chartbox{background:var(--paper);border:1px solid var(--line);padding:22px 22px 12px}
+#chart{width:100%;height:auto;display:block}
+#chart .axis text{font-size:11px;fill:var(--ink3);font-family:var(--mono)}
+#chart .axis line{stroke:var(--line)}
+.lg{display:flex;flex-wrap:wrap;gap:18px;font-size:13px;color:var(--ink2);margin-bottom:6px}
+.lg span{display:flex;align-items:center;gap:6px;cursor:pointer}
+.lg span.off{opacity:.35}
+.lg i{width:18px;height:2.5px;display:inline-block}
+.mtable{background:var(--paper);border:1px solid var(--line)}
+.mtable table{width:100%;border-collapse:collapse;font-size:13.5px}
+.mtable th{font-weight:500;font-size:12px;color:var(--ink3);text-align:right;padding:12px 14px;border-bottom:1px solid var(--line)}
+.mtable th:first-child,.mtable td:first-child{text-align:left}
+.mtable td{padding:13px 14px;border-bottom:1px solid var(--line);text-align:right;font-family:var(--mono)}
+.mtable td:first-child{font-family:var(--sans)}
+.mtable td .pn{font-weight:600}
+.mtable td .pd{display:block;font-size:11.5px;color:var(--ink3)}
+.mtable tr.me td{background:var(--tealbg)}
+.mtable tr.me td .pn{color:var(--teal)}
+.mnote{padding:14px;font-size:12.5px;color:var(--ink3);line-height:1.6}
+.best{color:var(--teal);font-weight:700}
+
+footer{padding:48px 0 64px;color:var(--ink3);font-size:13px}
+footer .wrap{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
+code{font-family:var(--mono);font-size:12.5px;background:#ECEAE2;padding:1px 6px}
+
+#tip{position:fixed;z-index:50;pointer-events:none;max-width:340px;background:var(--ink);color:#F5F4EF;font-size:12.5px;line-height:1.55;padding:9px 12px;opacity:0;transition:opacity .15s}
+.fade-in{animation:fi .45s ease both}
+@keyframes fi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media (max-width:1000px){
+  .player,.bench,.graphbox,.arch{grid-template-columns:1fr}
+  .arch>div+div,.gside{border-left:0;border-top:1px solid var(--line)}
+  .stats{grid-template-columns:repeat(2,1fr)} .hero h1{font-size:38px}
+  .sec-head{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<nav><div class="wrap">
+  <div class="brand">e<i>CAT</i> · Agent</div>
+  <div class="links">
+    <a href="#arch">架构</a><a href="#loop">闭环回放</a><a href="#graph-sec">科研记忆</a><a href="#bench">对照实验</a>
+  </div>
+  <div class="tag">题目二十一 · 初赛 Demo</div>
+</div></nav>
+
+<header class="hero"><div class="wrap">
+  <div class="eyebrow">AI Agent for Electrocatalyst Discovery</div>
+  <h1>让 Agent 像研究员一样<br><em>提出假设、动手实验、记住教训</em></h1>
+  <p class="lead">eCAT 把文献、实验与决策写进同一张科研记忆图谱。在真实的 HER 合金槽电压数据上，Agent 只能看到组分，必须通过有预算的黑盒实验逐轮试错，用证据支撑每一个选择。</p>
+  <div class="stats" id="stats"></div>
+</div></header>
+
+<section id="arch"><div class="wrap">
+  <div class="sec-head"><div class="sec-no">01</div><div>
+    <h2>三层架构：决策与真值严格隔离</h2>
+    <p>决策端读不到任何电压真值，只能通过预算受限的实验接口逐条获取，评测端独立打分。这样得到的性能曲线，反映的是 Agent 的真实发现能力。</p>
+  </div></div>
+  <div class="arch">
+    <div>
+      <div class="k">LAYER 1 · 证据</div>
+      <h3>文献证据库</h3>
+      <ul>
+        <li><b>来源</b><span id="a-lit">15 篇论文 PDF，按页切块</span></li>
+        <li><b>检索</b><span>TF-IDF 召回，保留 (文件, 页码)</span></li>
+        <li><b>抽取</b><span>LLM 抽取结论，必须引用真实块编号，否则丢弃</span></li>
+      </ul>
+    </div>
+    <div>
+      <div class="k">LAYER 2 · 决策</div>
+      <h3>记忆闭环 Agent</h3>
+      <ul>
+        <li><b>闭环</b><span>检索 → 设计 → 校验 → 实验 → 诊断 → 记忆</span></li>
+        <li><b>假设</b><span>每轮提出可证伪假设，下一轮依据实验判定 支持 / 否定 / 存疑</span></li>
+        <li><b>记忆</b><span>文献 · 实验 · 决策三子图，共享元素节点，可导出 Neo4j</span></li>
+        <li><b>引用</b><span>每个候选必须引用文献结论 K 或历史实验 X</span></li>
+      </ul>
+    </div>
+    <div>
+      <div class="k">LAYER 3 · 实验</div>
+      <h3>黑盒实验台</h3>
+      <ul>
+        <li><b>输入</b><span>候选编号（决策端只见组分）</span></li>
+        <li><b>输出</b><span>单个槽电压（越低越好）</span></li>
+        <li><b>约束</b><span id="a-budget">预算 40 次，禁止重复，全程留痕</span></li>
+      </ul>
+      <div class="wall"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><rect x="2" y="7" width="12" height="7" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M5 7V5a3 3 0 0 1 6 0v2" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>真值表仅评测端可读</div>
+    </div>
+  </div>
+</div></section>
+
+<section id="loop"><div class="wrap">
+  <div class="sec-head"><div class="sec-no">02</div><div>
+    <h2>闭环回放：每一轮 Agent 在想什么</h2>
+    <p id="loop-sub">回放一次真实运行的全过程。逐节点查看 Agent 的检索依据、假设、选点理由和实验反馈。</p>
+  </div></div>
+  <div class="player">
+    <div class="ringbox">
+      <div class="rtitle"><h4>闭环节点</h4><span class="num" id="run-meta"></span></div>
+      <svg id="ring" viewBox="0 0 360 330" role="img" aria-label="闭环节点示意"></svg>
+      <div class="controls">
+        <button class="btn" id="play" aria-label="播放或暂停"><span id="play-ic">▶</span><span id="play-tx">播放</span></button>
+        <button class="btn ghost" id="prev" aria-label="上一步">‹ 上一步</button>
+        <button class="btn ghost" id="next" aria-label="下一步">下一步 ›</button>
+        <select id="runsel" class="btn ghost" aria-label="选择策略" style="margin-left:auto;padding:6px 8px"></select>
+      </div>
+      <div class="rounds" id="rounds"></div>
+      <div class="bestbox">
+        <div><span>当前最优</span><b class="teal num" id="best-v">—</b></div>
+        <div><span>最优组分</span><b class="num" id="best-c" style="font-size:16px">—</b></div>
+        <div><span>已用实验</span><b class="num" id="used">0 / 40</b></div>
+        <div><span>全局排名</span><b class="num" id="best-r">—</b></div>
+      </div>
+    </div>
+    <div class="stage">
+      <div class="stage-top">
+        <div class="node-label" id="nl">ROUND 1 · RETRIEVE</div>
+        <div class="node-title" id="nt">检索</div>
+        <div class="node-text" id="nx"></div>
+        <div id="hypwrap"></div>
+      </div>
+      <div style="overflow:auto;flex:1">
+        <table class="picks"><thead><tr><th>候选组分</th><th>角色</th><th>选点理由与证据</th><th style="text-align:right">预测 / 实测 (V)</th></tr></thead><tbody id="picks"></tbody></table>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<section id="graph-sec"><div class="wrap">
+  <div class="sec-head"><div class="sec-no">03</div><div>
+    <h2>科研记忆图谱：每个决策都能追溯</h2>
+    <p>文献结论、候选材料、实验结果和假设判定连成一张图。点击任意节点，可以沿边追溯到它引用的文献页码或历史实验。拖动滑块可以查看图谱随轮次的生长。</p>
+  </div></div>
+  <div class="graphbox">
+    <svg id="graph" viewBox="0 0 900 600" role="img" aria-label="科研记忆图谱"></svg>
+    <div class="gside">
+      <div class="gctl"><span>轮次</span><input type="range" id="gr" min="0" max="8" value="8" aria-label="图谱轮次"><b class="num" id="grv">8</b></div>
+      <div class="legend" id="legend"></div>
+      <div class="inspect" id="inspect"><h5>节点详情</h5><div class="t" style="color:var(--ink3)">点击图中节点查看内容与关联</div></div>
+    </div>
+  </div>
+</div></section>
+
+<section id="bench"><div class="wrap">
+  <div class="sec-head"><div class="sec-no">04</div><div>
+    <h2>对照实验：同样的预算，谁更快找到好材料</h2>
+    <p>四种策略在同一黑盒、同一预算下各自独立运行多个随机种子。曲线为“截至第 n 次实验的最优槽电压”的种子均值，越快贴近下方越好。</p>
+  </div></div>
+  <div class="bench">
+    <div class="chartbox">
+      <div class="lg" id="lg"></div>
+      <svg id="chart" viewBox="0 0 680 400" role="img" aria-label="最优槽电压随实验次数变化"></svg>
+    </div>
+    <div class="mtable">
+      <table><thead><tr><th>策略</th><th>首次命中<br>Top10%</th><th>Top10%<br>找到数</th><th>最终<br>排名</th><th>可追溯</th></tr></thead><tbody id="mt"></tbody></table>
+      <div class="mnote" id="mnote"></div>
+    </div>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <div>eCAT · 基于 AI Agent 的催化材料智能优化系统 · 初赛 Demo</div>
+  <div>本页数据由 <code>python -m ecat.export_demo</code> 从真实运行记录导出</div>
+</div></footer>
+
+<div id="tip" role="tooltip"></div>
+<script src="data.js"></script>
+<script>
+(() => {
+const D = window.ECAT;
+const $ = s => document.querySelector(s);
+const NS = "http://www.w3.org/2000/svg";
+const el = (tag, attrs = {}, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; };
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const fmt = v => (v == null ? "—" : Number(v).toFixed(3));
+const POL_COLOR = {memory:"#176B61", lit_only:"#B58B4E", greedy_stat:"#4F5D8A", random:"#9AA19D"};
+const ORDER = ["memory","lit_only","greedy_stat","random"].filter(p => D.policies[p]);
+
+/* ---------- tooltip ---------- */
+const tip = $("#tip");
+function showTip(html, ev){ tip.innerHTML = html; tip.style.opacity = 1; moveTip(ev); }
+function moveTip(ev){ const x = Math.min(ev.clientX + 14, innerWidth - 360); tip.style.left = x + "px"; tip.style.top = (ev.clientY + 14) + "px"; }
+function hideTip(){ tip.style.opacity = 0; }
+
+/* ---------- hero stats ---------- */
+const mem = D.policies.memory, feat = D.featured.memory;
+const budget = feat ? feat.rounds * feat.per_round : 40;
+const featBest = feat ? featuredBest(feat) : null;
+function featuredBest(run){
+  let best = null;
+  run.log.forEach((x, i) => { if (!best || x.voltage < best.v) best = {v:x.voltage, cid:x.cid, i:i+1}; });
+  return best;
+}
+$("#stats").innerHTML = [
+  [D.space.n, "", "候选合金（真实实验数据）"],
+  [D.space.elements.length, "种", `元素 · ${D.space.systems} 个合金体系`],
+  [budget, "次", `实验预算（占空间 ${Math.round(budget / D.space.n * 100)}%）`],
+  [featBest ? featBest.i : "—", "次", "找到全局最优（示例运行）", true],
+  [mem ? Math.round(mem.traceability * 100) : "—", "%", "决策可追溯率", true],
+].map(([b, s, t, hl]) => `<div class="stat${hl ? " hl" : ""}"><b class="num">${b}<small>${s}</small></b><span>${t}</span></div>`).join("");
+$("#a-budget").textContent = `预算 ${budget} 次，禁止重复，全程留痕`;
+
+/* ---------- claims & lookups ---------- */
+function indexRun(run){
+  const nodes = Object.fromEntries(run.graph.nodes.map(n => [n.id, n]));
+  const compOf = Object.fromEntries(D.candidates.map(c => [c.id, c.composition]));
+  return {nodes, compOf};
+}
+
+/* ======================= LOOP PLAYER ======================= */
+const STEPS = [
+  {k:"retrieve", cn:"检索", en:"RETRIEVE"},
+  {k:"design",   cn:"设计", en:"DESIGN"},
+  {k:"validate", cn:"校验", en:"VALIDATE"},
+  {k:"execute",  cn:"实验", en:"EXECUTE"},
+  {k:"diagnose", cn:"诊断", en:"DIAGNOSE"},
+  {k:"memorize", cn:"记忆", en:"MEMORIZE"},
+];
+const ring = $("#ring");
+const ringNodes = [];
+(function drawRing(){
+  const cx = 180, cy = 158, R = 118;
+  el("circle", {cx, cy, r:R, fill:"none", stroke:"#E2DFD5", "stroke-width":1.5}, ring);
+  const prog = el("circle", {cx, cy, r:R, fill:"none", stroke:"#176B61", "stroke-width":2.5, "stroke-dasharray":`0 ${2*Math.PI*R}`, transform:`rotate(-90 ${cx} ${cy})`, id:"ringprog", style:"transition:stroke-dasharray .5s"}, ring);
+  const ct = el("text", {x:cx, y:cy - 6, "text-anchor":"middle", "font-family":"var(--serif)", "font-size":34, "font-weight":600, fill:"#1E2422", id:"ring-r"}, ring); ct.textContent = "R1";
+  const cs = el("text", {x:cx, y:cy + 18, "text-anchor":"middle", "font-size":12, fill:"#8A928E", id:"ring-s"}, ring); cs.textContent = "第 1 轮 · 5 个候选";
+  STEPS.forEach((s, i) => {
+    const a = -Math.PI/2 + i * 2*Math.PI/STEPS.length;
+    const x = cx + R*Math.cos(a), y = cy + R*Math.sin(a);
+    const g = el("g", {class:"ring-node", transform:`translate(${x},${y})`, tabindex:0, role:"button", "aria-label":s.cn}, ring);
+    el("circle", {class:"bg", r:30}, g);
+    const t1 = el("text", {class:"cn", "text-anchor":"middle", y:-1}, g); t1.textContent = s.cn;
+    const t2 = el("text", {"text-anchor":"middle", y:14, "font-size":8.5, "letter-spacing":".1em"}, g); t2.textContent = s.en;
+    g.addEventListener("click", () => { pause(); go(state.round, i); });
+    g.addEventListener("keydown", e => { if (e.key === "Enter") { pause(); go(state.round, i); } });
+    ringNodes.push(g);
+  });
+})();
+
+const state = {pol:"memory", round:1, step:0, timer:null};
+const runsel = $("#runsel");
+ORDER.filter(p => D.featured[p]).forEach(p => { const o = document.createElement("option"); o.value = p; o.textContent = D.policies[p].name; runsel.appendChild(o); });
+runsel.addEventListener("change", () => { pause(); state.pol = runsel.value; setupRun(); go(1, 0); });
+
+let RUN, IDX;
+function setupRun(){
+  RUN = D.featured[state.pol]; IDX = indexRun(RUN);
+  $("#run-meta").textContent = `${RUN.model && state.pol !== "random" && state.pol !== "greedy_stat" ? RUN.model : "离线策略"} · seed ${RUN.seed}`;
+  const rb = $("#rounds"); rb.innerHTML = "";
+  for (let r = 1; r <= RUN.rounds; r++){
+    const b = document.createElement("button"); b.textContent = "R" + r; b.setAttribute("aria-label", `第 ${r} 轮`);
+    b.onclick = () => { pause(); go(r, 0); }; rb.appendChild(b);
+  }
+}
+
+function bestUntil(nExp){
+  let best = null;
+  RUN.log.slice(0, nExp).forEach(x => { if (!best || x.voltage < best.voltage) best = x; });
+  return best;
+}
+
+function claimText(id){ const n = IDX.nodes[id]; return n ? n.text : ""; }
+function paperOf(kid){
+  const e = RUN.graph.edges.find(e => e.src === kid && e.rel === "FROM");
+  if (!e) return "";
+  const f = e.dst.replace(/^P:/, "").split("/").pop().replace(/\.pdf$/i, "");
+  return `${f} · p.${e.page}`;
+}
+function chipHTML(ev){
+  if (ev.startsWith("K")) return `<span class="chip k" data-k="${esc(ev)}">${esc(ev)}</span>`;
+  if (ev.startsWith("X:")){ const c = ev.slice(2); return `<span class="chip x" data-x="${esc(c)}">${esc(IDX.compOf[c] || c)}</span>`; }
+  return "";
+}
+
+function go(round, step){
+  state.round = round; state.step = step;
+  const T = RUN.trace[round - 1];
+  const nPrev = (round - 1) * RUN.per_round;
+  const executed = step >= 3;
+  const nNow = nPrev + (executed ? T.picks.length : 0);
+  const H = IDX.nodes["H:" + round];
+
+  // ring
+  ringNodes.forEach((g, i) => { g.classList.toggle("on", i === step); g.classList.toggle("done", i < step); });
+  const R = 118, frac = ((round - 1) * 6 + step + 1) / (RUN.rounds * 6);
+  $("#ringprog").setAttribute("stroke-dasharray", `${frac * 2*Math.PI*R} ${2*Math.PI*R}`);
+  $("#ring-r").textContent = "R" + round;
+  $("#ring-s").textContent = `第 ${round} 轮 · ${T.picks.length} 个候选`;
+  [...$("#rounds").children].forEach((b, i) => { b.className = i + 1 === round ? "cur" : (i + 1 < round ? "past" : ""); });
+
+  // best box
+  const best = bestUntil(nNow);
+  $("#best-v").textContent = best ? fmt(best.voltage) + " V" : "—";
+  $("#best-c").textContent = best ? IDX.compOf[best.cid] : "—";
+  $("#used").textContent = `${nNow} / ${RUN.rounds * RUN.per_round}`;
+  $("#best-r").textContent = best ? (best.voltage <= D.space.global_best + 1e-6 ? "#1 全局最优" : (best.voltage <= D.space.top_threshold ? "Top 10%" : "未进 Top 10%")) : "—";
+
+  // stage text
+  const S = STEPS[step];
+  $("#nl").textContent = `ROUND ${round} · ${S.en}`;
+  $("#nt").textContent = S.cn;
+  const evs = [...new Set(T.picks.flatMap(p => p.evidence || []))];
+  const nK = evs.filter(e => e.startsWith("K")).length, nX = evs.filter(e => e.startsWith("X:")).length;
+  const isLLM = !!T.hypothesis;
+  let txt = "";
+  if (S.k === "retrieve") txt = isLLM ? `从文献证据库召回相关结论，并读取记忆图谱摘要（已测 ${nPrev} 个候选的元素统计与历史假设）。本轮最终引用 ${nK} 条文献结论、${nX} 条历史实验。` : "离线策略不读取文献，仅使用已测实验统计（或纯随机）。";
+  if (S.k === "design") txt = isLLM ? `基于证据提出本轮可证伪假设，并为每个候选给出理由、证据和预测电压，区分利用（exploit）与探索（explore）。` : "按策略规则直接生成候选列表。";
+  if (S.k === "validate") txt = `规则校验：候选必须存在、未测过、证据编号真实可查。本轮拒绝 ${T.rejected || 0} 个，${T.picks.filter(p => p.rule === "filled").length} 个由系统补位。`;
+  if (S.k === "execute") txt = `提交黑盒实验台，消耗 ${T.picks.length} 次预算，返回 ${T.picks.length} 个槽电压。决策端此时第一次看到这些数值。`;
+  if (S.k === "diagnose") txt = isLLM ? "对照预测与实测，判定本轮假设的去留，判定结果写入记忆，影响下一轮设计。" : "离线策略无假设诊断环节。";
+  if (S.k === "memorize") txt = `写入图谱：${T.picks.length} 个决策节点、${T.picks.length} 个实验节点、1 个假设节点及其引用边。`;
+  $("#nx").textContent = txt;
+
+  let hyp = "";
+  if (isLLM && step >= 1){
+    const status = step >= 4 && H ? H.status : "open";
+    const lab = {supported:"支持", refuted:"否定", inconclusive:"存疑", open:"待检验"}[status] || status;
+    hyp = `<div class="hyp fade-in"><small>本轮假设 H${round}<span class="verdict v-${status}">${lab}</span></small>${esc(T.hypothesis)}</div>`;
+    if (step >= 4 && H && H.note) hyp += `<div class="note fade-in">诊断：${esc(H.note)}</div>`;
+  }
+  $("#hypwrap").innerHTML = hyp;
+
+  // picks
+  const show = step >= 1;
+  $("#picks").innerHTML = !show ? `<tr><td colspan="4" style="color:var(--ink3);padding:28px 12px">检索中，候选尚未生成</td></tr>` :
+    T.picks.map(p => {
+      const v = p.voltage, top = v <= D.space.top_threshold, gb = v <= D.space.global_best + 1e-6;
+      const pred = p.predicted != null ? `预测 ${Number(p.predicted).toFixed(2)}` : "";
+      const meas = executed ? `<span class="m">${fmt(v)}${gb ? ' <span class="star">★</span>' : ""}</span>` : `<span class="m">•••</span>`;
+      return `<tr class="${executed && step === 3 ? "flash" : ""}">
+        <td><span class="comp">${esc(p.composition)}</span><div style="font-size:11px;color:var(--ink3);font-family:var(--mono)">${esc(p.id)}</div></td>
+        <td>${p.role ? `<span class="role ${esc(p.role)}">${esc(p.role)}</span>` : ""}${p.rule === "filled" ? ' <span class="role">补位</span>' : ""}</td>
+        <td><div class="reason">${esc(p.reason || "—")}</div><div class="chips">${(p.evidence || []).map(chipHTML).join("")}</div></td>
+        <td style="text-align:right"><span class="volt ${executed ? (top ? "top" : "") : "hidden"}">${meas}<span class="p">${pred}</span></span></td></tr>`;
+    }).join("");
+  if (step === 3) setTimeout(() => document.querySelectorAll("#picks tr.flash").forEach(t => t.classList.remove("flash")), 900);
+}
+
+document.addEventListener("mouseover", e => {
+  const k = e.target.closest?.(".chip.k"), x = e.target.closest?.(".chip.x");
+  if (k){ const id = k.dataset.k; showTip(`<b>${esc(id)}</b> ${esc(claimText(id))}<div style="opacity:.6;margin-top:4px">${esc(paperOf(id))}</div>`, e); }
+  else if (x){ const c = x.dataset.x, r = RUN.log.find(l => l.cid === c); showTip(`历史实验 <b>${esc(IDX.compOf[c])}</b><br>实测 ${fmt(r?.voltage)} V`, e); }
+});
+document.addEventListener("mousemove", e => { if (tip.style.opacity === "1") moveTip(e); });
+document.addEventListener("mouseout", e => { if (e.target.closest?.(".chip")) hideTip(); });
+
+function stepFwd(){
+  let {round, step} = state; step++;
+  if (step >= STEPS.length){ step = 0; round++; }
+  if (round > RUN.rounds){ pause(); return; }
+  go(round, step);
+}
+function stepBack(){
+  let {round, step} = state; step--;
+  if (step < 0){ step = STEPS.length - 1; round--; }
+  if (round < 1) return; go(round, step);
+}
+function play(){ if (state.round === RUN.rounds && state.step === STEPS.length - 1) go(1, 0); state.timer = setInterval(stepFwd, 1500); $("#play-ic").textContent = "❚❚"; $("#play-tx").textContent = "暂停"; }
+function pause(){ clearInterval(state.timer); state.timer = null; $("#play-ic").textContent = "▶"; $("#play-tx").textContent = "播放"; }
+$("#play").onclick = () => state.timer ? pause() : play();
+$("#next").onclick = () => { pause(); stepFwd(); };
+$("#prev").onclick = () => { pause(); stepBack(); };
+setupRun(); go(1, 0);
+
+/* ======================= MEMORY GRAPH ======================= */
+(function graph(){
+  const G = D.featured.memory.graph, svg = $("#graph"), W = 900, H = 600;
+  const SUB = {literature:{x:150, c:"#B58B4E", n:"文献"}, shared:{x:345, c:"#8A928E", n:"元素"}, experiment:{x:560, c:"#176B61", n:"实验"}, decision:{x:770, c:"#4F5D8A", n:"决策"}};
+  const per = D.featured.memory.per_round;
+  const roundOfCand = {}; D.featured.memory.log.forEach((x, i) => roundOfCand[x.cid] = Math.floor(i / per) + 1);
+  const nodes = G.nodes.map(n => ({...n}));
+  const byId = Object.fromEntries(nodes.map(n => [n.id, n]));
+  const edges = G.edges.filter(e => byId[e.src] && byId[e.dst]).map(e => ({...e, s:byId[e.src], t:byId[e.dst]}));
+  nodes.forEach(n => {
+    if (n.round != null) n.r = n.round;
+    else if (n.label === "Candidate") n.r = roundOfCand[n.id] ?? 0;
+    else n.r = 0;
+  });
+  nodes.filter(n => n.label === "Element").forEach(n => {
+    const rs = edges.filter(e => e.t === n || e.s === n).map(e => (e.s === n ? e.t : e.s)).map(m => m.label === "Claim" ? 0 : m.r);
+    n.r = rs.length ? Math.min(...rs) : 0;
+  });
+  const size = {Paper:7, Claim:5, Element:8, Candidate:4, Experiment:4.2, Decision:3.2, Hypothesis:7, Round:5.5};
+  const color = n => n.label === "Hypothesis" ? ({supported:"#176B61", refuted:"#B4553F", inconclusive:"#B58B4E"}[n.status] || "#4F5D8A") : SUB[n.subgraph]?.c || "#999";
+
+  // deterministic seeded layout + force relaxation
+  let seed = 7; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+  nodes.forEach(n => { const a = SUB[n.subgraph]; n.x = a.x + (rnd() - .5) * 120; n.y = 60 + (n.label === "Round" || n.label === "Hypothesis" || n.label === "Decision" || n.label === "Experiment" || n.label === "Candidate" ? (n.r / 9) * 480 : rnd() * 480) + (rnd() - .5) * 40; n.vx = n.vy = 0; });
+  for (let it = 0; it < 360; it++){
+    const alpha = 1 - it / 360;
+    for (let i = 0; i < nodes.length; i++) for (let j = i + 1; j < nodes.length; j++){
+      const a = nodes[i], b = nodes[j]; let dx = a.x - b.x, dy = a.y - b.y, d2 = dx*dx + dy*dy + .01;
+      if (d2 > 9000) continue; const f = 60 / d2; a.vx += dx*f; a.vy += dy*f; b.vx -= dx*f; b.vy -= dy*f;
+    }
+    edges.forEach(e => { const dx = e.t.x - e.s.x, dy = e.t.y - e.s.y; const d = Math.sqrt(dx*dx + dy*dy) || 1; const f = (d - 40) * .0004; e.s.vx += dx*f; e.s.vy += dy*f; e.t.vx -= dx*f; e.t.vy -= dy*f; });
+    nodes.forEach(n => {
+      n.vx += (SUB[n.subgraph].x - n.x) * .02; n.vy += (300 - n.y) * .002;
+      n.x += n.vx * alpha * .6; n.y += n.vy * alpha * .6; n.vx *= .55; n.vy *= .55;
+      n.x = Math.max(SUB[n.subgraph].x - 95, Math.min(SUB[n.subgraph].x + 95, n.x)); n.y = Math.max(46, Math.min(H - 18, n.y));
+    });
+  }
+
+  Object.values(SUB).forEach(s => { const t = el("text", {x:s.x, y:24, "text-anchor":"middle", class:"band"}, svg); t.textContent = s.n + "子图"; });
+  el("line", {x1:248, x2:248, y1:36, y2:H - 10, stroke:"#E2DFD5", "stroke-dasharray":"2 4"}, svg);
+  el("line", {x1:450, x2:450, y1:36, y2:H - 10, stroke:"#E2DFD5", "stroke-dasharray":"2 4"}, svg);
+  el("line", {x1:668, x2:668, y1:36, y2:H - 10, stroke:"#E2DFD5", "stroke-dasharray":"2 4"}, svg);
+  const gE = el("g", {}, svg), gN = el("g", {}, svg), gL = el("g", {}, svg);
+  edges.forEach(e => { e.el = el("line", {x1:e.s.x, y1:e.s.y, x2:e.t.x, y2:e.t.y, class:"e " + e.rel}, gE); });
+  nodes.forEach(n => {
+    n.el = el("circle", {cx:n.x, cy:n.y, r:size[n.label] || 4, fill:color(n), class:"n"}, gN);
+    if (n.label === "Element"){ const t = el("text", {x:n.x + 11, y:n.y + 4, class:"glabel"}, gL); t.textContent = n.symbol; n.lab = t; }
+    n.el.addEventListener("mouseenter", ev => showTip(nodeTip(n), ev));
+    n.el.addEventListener("mouseleave", hideTip);
+    n.el.addEventListener("click", ev => { ev.stopPropagation(); select(n); });
+  });
+  const adj = new Map(nodes.map(n => [n, new Set()]));
+  edges.forEach(e => { adj.get(e.s).add(e.t); adj.get(e.t).add(e.s); });
+
+  const compOf = Object.fromEntries(D.candidates.map(c => [c.id, c.composition]));
+  const vOf = Object.fromEntries(D.featured.memory.log.map(x => [x.cid, x.voltage]));
+  function nodeTitle(n){
+    switch (n.label){
+      case "Paper": return n.id.replace(/^P:/, "").split("/").pop();
+      case "Claim": return `${n.id} · ${n.text}`;
+      case "Element": return `元素 ${n.symbol}`;
+      case "Candidate": return `${n.composition}`;
+      case "Experiment": return `实验 ${compOf[n.id.slice(2)]} → ${fmt(n.voltage)} V`;
+      case "Decision": return `R${n.round} 选择 ${compOf[n.id.split(":")[2]] || ""}：${n.reason || ""}`;
+      case "Hypothesis": return `H${n.round}（${({supported:"支持",refuted:"否定",inconclusive:"存疑"})[n.status] || "待检验"}）${n.text}`;
+      case "Round": return `第 ${n.round} 轮`;
+    }
+    return n.id;
+  }
+  function nodeTip(n){ return esc(nodeTitle(n)).slice(0, 220); }
+  function select(n){
+    const nb = adj.get(n);
+    nodes.forEach(m => m.el.classList.toggle("dim", m !== n && !nb.has(m) && !m.el.classList.contains("hide")));
+    edges.forEach(e => e.el.classList.toggle("dim", e.s !== n && e.t !== n));
+    const rels = {}; edges.filter(e => e.s === n || e.t === n).forEach(e => rels[e.rel] = (rels[e.rel] || 0) + 1);
+    let extra = "";
+    if (n.label === "Claim"){ const f = edges.find(e => e.s === n && e.rel === "FROM"); if (f) extra = `出处：${esc(f.dst.replace(/^P:/, ""))} · 第 ${f.page} 页`; }
+    if (n.label === "Decision"){ const cites = edges.filter(e => e.s === n && e.rel === "CITES").map(e => e.t.label === "Claim" ? e.t.id : compOf[e.t.id.slice(2)]); extra = `引用：${esc(cites.join("、") || "无")}`; }
+    if (n.label === "Hypothesis" && n.note) extra = `诊断：${esc(n.note)}`;
+    $("#inspect").innerHTML = `<h5>${esc(n.label.toUpperCase())} · ${esc(SUB[n.subgraph].n)}子图</h5><div class="t">${esc(nodeTitle(n))}</div>${extra ? `<div class="note" style="margin-top:10px">${extra}</div>` : ""}<div class="meta">关联边：${Object.entries(rels).map(([k, v]) => `${k}×${v}`).join(" · ")}</div>`;
+  }
+  svg.addEventListener("click", () => { nodes.forEach(m => m.el.classList.remove("dim")); edges.forEach(e => e.el.classList.remove("dim")); });
+
+  function reveal(R){
+    $("#grv").textContent = R;
+    const cnt = {literature:0, shared:0, experiment:0, decision:0};
+    nodes.forEach(n => { const v = n.r <= R; n.el.classList.toggle("hide", !v); if (n.lab) n.lab.classList.toggle("hide", !v); if (v) cnt[n.subgraph]++; n.vis = v; });
+    edges.forEach(e => e.el.classList.toggle("hide", !(e.s.vis && e.t.vis)));
+    $("#legend").innerHTML = Object.entries(SUB).map(([k, s]) => `<div><i style="background:${s.c}"></i>${s.n}子图<span class="cnt">${cnt[k]}</span></div>`).join("") +
+      `<div style="margin-top:6px"><i style="background:#176B61"></i>假设·支持 <i style="background:#B4553F;margin-left:8px"></i>否定 <i style="background:#B58B4E;margin-left:8px"></i>存疑</div>`;
+  }
+  $("#gr").max = D.featured.memory.rounds;
+  $("#gr").addEventListener("input", e => reveal(+e.target.value));
+  reveal(D.featured.memory.rounds);
+})();
+
+/* ======================= BENCHMARK ======================= */
+(function bench(){
+  const svg = $("#chart"), W = 680, H = 400, m = {l:52, r:16, t:14, b:40};
+  const curves = ORDER.map(p => D.policies[p].mean_curve);
+  const n = curves[0].length;
+  const all = ORDER.flatMap(p => D.policies[p].runs_detail.flatMap(r => r.curve));
+  const yMax = Math.min(Math.max(...all) + .02, 2.75), yMin = D.space.global_best - .03;
+  const X = i => m.l + (i) / (n - 1) * (W - m.l - m.r);
+  const Y = v => m.t + (yMax - Math.min(v, yMax)) / (yMax - yMin) * (H - m.t - m.b);
+  const ax = el("g", {class:"axis"}, svg);
+  for (let v = Math.ceil(yMin * 10) / 10; v <= yMax; v += .1){ el("line", {x1:m.l, x2:W - m.r, y1:Y(v), y2:Y(v)}, ax); const t = el("text", {x:m.l - 8, y:Y(v) + 4, "text-anchor":"end"}, ax); t.textContent = v.toFixed(1); }
+  [1, 5, 10, 15, 20, 25, 30, 35, 40].filter(i => i <= n).forEach(i => { const t = el("text", {x:X(i - 1), y:H - m.b + 18, "text-anchor":"middle"}, ax); t.textContent = i; });
+  const xl = el("text", {x:(W + m.l) / 2, y:H - 6, "text-anchor":"middle"}, ax); xl.textContent = "实验次数";
+  const yl = el("text", {x:14, y:(H - m.b) / 2, "text-anchor":"middle", transform:`rotate(-90 14 ${(H - m.b) / 2})`}, ax); yl.textContent = "截至当前最优槽电压 (V)";
+  // reference lines
+  const ref = (v, lab, c) => { el("line", {x1:m.l, x2:W - m.r, y1:Y(v), y2:Y(v), stroke:c, "stroke-dasharray":"4 4", "stroke-width":1}, svg); const t = el("text", {x:W - m.r - 4, y:Y(v) - 6, "text-anchor":"end", "font-size":11, fill:c}, svg); t.textContent = lab; };
+  ref(D.space.top_threshold, `Top 10% 阈值 ${D.space.top_threshold.toFixed(3)} V`, "#B58B4E");
+  ref(D.space.global_best, `全局最优 ${D.space.global_best.toFixed(3)} V`, "#176B61");
+  const groups = {};
+  ORDER.forEach(p => {
+    const g = el("g", {}, svg); groups[p] = g; const c = POL_COLOR[p];
+    D.policies[p].runs_detail.forEach(r => el("path", {d:r.curve.map((v, i) => `${i ? "L" : "M"}${X(i)},${Y(v)}`).join(""), fill:"none", stroke:c, "stroke-opacity":.16, "stroke-width":1}, g));
+    const d = D.policies[p].mean_curve.map((v, i) => `${i ? "L" : "M"}${X(i)},${Y(v)}`).join("");
+    const path = el("path", {d, fill:"none", stroke:c, "stroke-width":p === "memory" ? 3 : 2, "stroke-linejoin":"round"}, g);
+    const L = path.getTotalLength(); path.style.strokeDasharray = L; path.style.strokeDashoffset = L; path.style.transition = "stroke-dashoffset 1.6s ease";
+    path.dataset.anim = 1;
+  });
+  // hover crosshair
+  const hl = el("line", {y1:m.t, y2:H - m.b, stroke:"#1E2422", "stroke-opacity":.25, opacity:0}, svg);
+  const hit = el("rect", {x:m.l, y:m.t, width:W - m.l - m.r, height:H - m.t - m.b, fill:"transparent"}, svg);
+  hit.addEventListener("mousemove", ev => {
+    const pt = svg.createSVGPoint(); pt.x = ev.clientX; pt.y = ev.clientY; const p = pt.matrixTransform(svg.getScreenCTM().inverse());
+    const i = Math.max(0, Math.min(n - 1, Math.round((p.x - m.l) / (W - m.l - m.r) * (n - 1))));
+    hl.setAttribute("x1", X(i)); hl.setAttribute("x2", X(i)); hl.setAttribute("opacity", 1);
+    showTip(`<b>第 ${i + 1} 次实验</b><br>` + ORDER.map(q => `<span style="color:${POL_COLOR[q] === "#9AA19D" ? "#ccc" : POL_COLOR[q]}">■</span> ${esc(D.policies[q].name)}　${fmt(D.policies[q].mean_curve[i])} V`).join("<br>"), ev);
+  });
+  hit.addEventListener("mouseleave", () => { hl.setAttribute("opacity", 0); hideTip(); });
+
+  $("#lg").innerHTML = ORDER.map(p => `<span data-p="${p}"><i style="background:${POL_COLOR[p]}"></i>${esc(D.policies[p].name)} <span class="num" style="color:var(--ink3)">n=${D.policies[p].runs}</span></span>`).join("");
+  $("#lg").addEventListener("click", e => { const s = e.target.closest("span[data-p]"); if (!s) return; s.classList.toggle("off"); groups[s.dataset.p].style.display = s.classList.contains("off") ? "none" : ""; });
+
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting){ svg.querySelectorAll("path[data-anim]").forEach(p => p.style.strokeDashoffset = 0); io.disconnect(); } }), {threshold:.3});
+  io.observe(svg);
+
+  // metrics table — best per column highlighted
+  const P = ORDER.map(p => ({p, ...D.policies[p]}));
+  const bestOf = (k, lower) => (lower ? Math.min : Math.max)(...P.map(x => x[k]).filter(v => v != null));
+  const bHit = bestOf("mean_hit_at", true), bTop = bestOf("mean_top10_found"), bRank = bestOf("mean_final_rank", true), bTr = bestOf("traceability");
+  const cell = (v, b, s = "") => `<td class="${v === b ? "best" : ""}">${v ?? "—"}${s}</td>`;
+  $("#mt").innerHTML = P.map(x => `<tr class="${x.p === "memory" ? "me" : ""}"><td><span class="pn">${esc(x.name)}</span><span class="pd">${esc(x.desc)}</span></td>
+    ${cell(x.mean_hit_at, bHit)}${cell(x.mean_top10_found, bTop)}${cell(x.mean_final_rank, bRank)}${cell(Math.round(x.traceability * 100), Math.round(bTr * 100), "%")}</tr>`).join("");
+  $("#mnote").innerHTML = `候选空间 ${D.space.n} 个，Top 10% 共 ${D.space.top_k} 个。各列为 ${P.map(x => `${x.name} ${x.runs}`).join("、")} 个种子的均值；“首次命中”未命中按预算 +1 计。最终排名 1 表示找到全局最优。`;
+})();
+})();
+</script>
+</body>
+</html>

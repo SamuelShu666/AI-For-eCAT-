@@ -1,0 +1,24 @@
+# 密钥
+.env
+*.key
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# 大文件/可重建
+chroma_her_db*/
+model_cache/
+.mplcache/
+
+# 原始 PDF 与中间产物
+pdf_input/
+new_refs/
+output_md/
+chunk_output/
+*.zip
+
+# 备份
+her_chunks_v5_raw*.csv

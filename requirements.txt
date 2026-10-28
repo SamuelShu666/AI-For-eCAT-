@@ -1,0 +1,14 @@
+langgraph
+langchain-community
+langchain-core
+langchain-huggingface
+langchain-openai
+chromadb
+scikit-learn
+openai
+python-dotenv
+docling
+openpyxl
+pandas
+matplotlib
+pypdf

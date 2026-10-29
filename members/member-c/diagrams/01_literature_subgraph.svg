@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="850" viewBox="0 0 1400 850">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#64748b"/></marker>
+    <style>
+      text { font-family: "Microsoft YaHei", "Noto Sans CJK SC", Arial, sans-serif; fill: #0f172a; }
+      .edge { stroke: #64748b; stroke-width: 3; fill: none; marker-end: url(#arrow); }
+      .node { stroke: #334155; stroke-width: 2; rx: 18; }
+      .label { font-size: 15px; fill: #334155; }
+      .name { font-size: 23px; font-weight: 700; }
+      .fields { font-size: 15px; fill: #334155; }
+    </style>
+  </defs>
+  <rect width="100%" height="100%" fill="#f8fafc"/>
+  <text x="70" y="72" font-size="38" font-weight="700">文献知识子图：从原文到可审核知识</text>
+  <text x="70" y="112" font-size="19" fill="#475569">来源编号先通过命名空间别名解析；原文 Evidence 与抽取 Claim 分开保存。</text>
+
+  <path class="edge" d="M330 278 L500 278"/><text class="label" x="415" y="264" text-anchor="middle">包含</text>
+  <path class="edge" d="M245 430 L500 315"/><text class="label" x="360" y="355" text-anchor="middle">RESOLVES_TO</text>
+  <path class="edge" d="M865 278 L760 278"/><text class="label" x="812" y="264" text-anchor="middle">GROUNDED_IN</text>
+  <path class="edge" d="M1065 278 L1190 188"/><text class="label" x="1130" y="220" text-anchor="middle">ABOUT*</text>
+  <path class="edge" d="M700 315 L865 470"/><text class="label" x="775" y="412" text-anchor="middle">MENTIONS</text>
+  <path class="edge" d="M700 300 L865 650"/><text class="label" x="755" y="545" text-anchor="middle">MENTIONS</text>
+
+  <rect class="node" x="70" y="235" width="260" height="88" fill="#dbeafe"/>
+  <text class="name" x="200" y="272" text-anchor="middle">Paper · 论文来源</text>
+  <text class="fields" x="200" y="301" text-anchor="middle">paper_id · source_file · DOI</text>
+
+  <rect class="node" x="80" y="390" width="260" height="82" fill="#e2e8f0"/>
+  <text class="name" x="210" y="424" text-anchor="middle">证据别名</text>
+  <text class="fields" x="210" y="451" text-anchor="middle">namespace · source_id</text>
+
+  <rect class="node" x="500" y="235" width="260" height="88" fill="#bfdbfe"/>
+  <text class="name" x="630" y="272" text-anchor="middle">Evidence · 原文片段</text>
+  <text class="fields" x="630" y="301" text-anchor="middle">evidence_id · 页码 · 原文</text>
+
+  <rect class="node" x="865" y="235" width="260" height="88" fill="#fef3c7"/>
+  <text class="name" x="995" y="272" text-anchor="middle">Claim · 抽取主张</text>
+  <text class="fields" x="995" y="301" text-anchor="middle">表述 · 效应 · 审核状态</text>
+
+  <rect class="node" x="1190" y="145" width="180" height="88" fill="#dcfce7"/>
+  <text class="name" x="1280" y="180" text-anchor="middle">Element</text>
+  <text class="fields" x="1280" y="207" text-anchor="middle">元素实体</text>
+
+  <rect class="node" x="865" y="430" width="260" height="82" fill="#e0e7ff"/>
+  <text class="name" x="995" y="464" text-anchor="middle">Material · 材料</text>
+  <text class="fields" x="995" y="491" text-anchor="middle">候选 ID · 组成</text>
+
+  <rect class="node" x="865" y="610" width="260" height="82" fill="#fce7f3"/>
+  <text class="name" x="995" y="644" text-anchor="middle">Condition · 条件</text>
+  <text class="fields" x="995" y="671" text-anchor="middle">参数 · 数值 · 单位</text>
+
+  <rect x="70" y="735" width="1290" height="62" rx="12" fill="#fff7ed" stroke="#fdba74"/>
+  <text x="95" y="773" font-size="17" fill="#7c2d12">规则：P03 不是全局论文主键；未经审核的 Claim 不作为已确认事实。*Claim 审核通过后才连到实体。</text>
+</svg>

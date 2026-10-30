@@ -1,9 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Ni 基 HER 催化剂筛选 · LangGraph 单 Agent 闭环 v5
-用法：
-  python agent_graph.py --mode memory --rounds 20 --temp 0.2
-  python agent_graph.py --mode lit_only --rounds 20 --temp 0.2
-"""
+"""Ni 基 HER 筛选 Agent v6：记忆节点接入 Neo4j"""
 import argparse
 import json
 import os
@@ -20,6 +16,13 @@ import agent_tools as T
 from tool_literature import literature_retrieve
 
 load_dotenv()
+
+try:
+    from graph_memory import GraphMemory
+    GM = GraphMemory()
+except Exception as e:
+    GM = None
+    print("[warn] Neo4j 不可用，回退到本地历史：", type(e).__name__)
 
 RUN_DIR = Path(r"D:\her_agent_project\runs")
 RUN_DIR.mkdir(exist_ok=True)
@@ -57,12 +60,12 @@ class State(TypedDict, total=False):
     validation_error: str
     retry: int
     log_path: str
+    run_id: str
     last_diagnosis: str
 
 
 def retrieve_node(state):
     r = state.get("round", 1)
-
     if MODE == "lit_only" or r == 1:
         query = "Ni-based alloy catalyst hydrogen evolution reaction in alkaline electrolyte"
     else:
@@ -81,7 +84,6 @@ def retrieve_node(state):
 def design_node(state):
     full_hist = state.get("history", [])
     tried = {h["candidate_id"] for h in full_hist}
-
     hist = full_hist if MODE == "memory" else []
     print(f"  [design] mode={MODE} | 可见历史 {len(hist)} 条")
 
@@ -89,22 +91,26 @@ def design_node(state):
     pool_lines = "\n".join(f'{p["candidate_id"]} | {p["composition"]}' for p in untried)
 
     if MODE == "lit_only":
-        hist_lines = "（本模式不提供实验历史，仅依据文献与元素先验）"
-    elif hist:
-        hist_lines = "\n".join(
-            f'第{h["round"]}轮 {h["candidate_id"]} {h["composition"]} '
-            f'-> Δη={h["delta_eta_mv"]:.1f} mV (rank {h["rank"]})'
-            for h in hist
-        )
+        mem_lines = "（本模式不提供实验记忆）"
     else:
-        hist_lines = "无（这是第 1 轮）"
+        best = state.get("best") or {}
+        if GM is not None and GM.available() and best.get("composition"):
+            mem_lines = GM.memory_text(best["composition"], state.get("run_id", ""))
+        else:
+            mem_lines = "（图谱中暂无相似实验）"
+        if hist:
+            recent = hist[-3:]
+            mem_lines += "\n最近轮次：" + "；".join(
+                f'{h["candidate_id"]} {h["composition"][:20]} Δη={h["delta_eta_mv"]:.1f}'
+                for h in recent
+            )
 
     tested_block = ""
     if tried:
         tested_block = f"【禁止再选，这些已经测过】{', '.join(sorted(tried))}\n"
 
     diag = state.get("last_diagnosis", "")
-    diag_block = f"\n【上一轮诊断，必须参考】{diag}\n" if (diag and MODE == "memory") else ""
+    diag_block = f"\n【上一轮诊断】{diag}\n" if (diag and MODE == "memory") else ""
 
     err = state.get("validation_error", "")
     err_block = f"\n【上次输出无效，请修正】{err}\n" if err else ""
@@ -112,12 +118,12 @@ def design_node(state):
     allowed = ", ".join(state.get("available_evidence", []))
 
     prompt = f"""你是碱性电解水 HER 催化剂筛选专家。
-目标：在 Ni 基候选组成中，用尽量少的实验找到 Δη_RC 最低的配方。
+目标：在 Ni 基候选组成中找到 Δη_RC 最低的配方。
 规则：
-1. 只能从"未测试候选"里选一个，输出 candidate_id
+1. 只能从未测试候选中选一个，输出 candidate_id
 2. Δη_RC 越小越好
-3. evidence_chunk_ids 只能从本轮给出的文献 chunk_id 里选：{allowed}
-4. 参考元素先验：活性高、碱稳定性好的元素优先，但也要保留探索
+3. evidence_chunk_ids 只能从本轮给出的 chunk_id 中选择：{allowed}
+4. 参考元素先验与图谱记忆
 5. 绝对不要选"禁止再选"里的 ID
 
 【文献证据】
@@ -129,34 +135,30 @@ def design_node(state):
 【硬约束】
 {CONSTRAINTS}
 
-【实验历史】
-{hist_lines}
+【科研记忆】
+{mem_lines}
 
 {tested_block}{diag_block}{err_block}
 【未测试候选】（候选ID | 组成）
 {pool_lines}
 
-只输出 JSON，不要任何解释，不要用 ``` 包裹：
-{{"candidate_id":"Cxxx","reason":"一句话说明为什么选它","evidence_chunk_ids":["P07_p1_001"],"expected_direction":"lower_delta_eta"}}"""
+只输出 JSON，不要解释：
+{{"candidate_id":"Cxxx","reason":"一句话","evidence_chunk_ids":["P07_p1_001"],"expected_direction":"improve"}}"""
 
     msg = llm.invoke(prompt)
-    text = (msg.content or "").strip()
-    text = text.replace("```json", "").replace("```", "").strip()
-
+    text = (msg.content or "").strip().replace("```json", "").replace("```", "").strip()
     try:
         data = json.loads(text)
     except Exception:
         m = re.search(r"\{.*\}", text, re.S)
         data = json.loads(m.group(0)) if m else {}
 
-    return {
-        "candidate": {
-            "candidate_id": str(data.get("candidate_id", "")).strip(),
-            "reason": data.get("reason", ""),
-            "evidence_chunk_ids": data.get("evidence_chunk_ids", []),
-            "expected_direction": data.get("expected_direction", ""),
-        }
-    }
+    return {"candidate": {
+        "candidate_id": str(data.get("candidate_id", "")).strip(),
+        "reason": data.get("reason", ""),
+        "evidence_chunk_ids": data.get("evidence_chunk_ids", []),
+        "expected_direction": data.get("expected_direction", "improve"),
+    }}
 
 
 def validate_node(state):
@@ -172,7 +174,7 @@ def validate_node(state):
     elif cid in tried:
         err = f"候选 {cid} 已经测过"
     elif not ev:
-        err = "没有引用任何文献证据 chunk_id"
+        err = "没有引用任何文献证据"
     else:
         bad = [e for e in ev if e not in allowed]
         if bad:
@@ -183,13 +185,9 @@ def validate_node(state):
         print(f"  [validate] 不合格（第 {retry} 次）：{err}")
         if retry >= 3:
             fallback = next(p for p in POOL if p["candidate_id"] not in tried)
-            print(f"  [validate] 连续失败，改用兜底候选 {fallback['candidate_id']}")
-            return {
-                "candidate": {**cand, "candidate_id": fallback["candidate_id"],
-                              "reason": "fallback：连续校验失败"},
-                "validation_error": "",
-                "retry": retry,
-            }
+            return {"candidate": {**cand, "candidate_id": fallback["candidate_id"],
+                                  "reason": "fallback：校验连续失败"},
+                    "validation_error": "", "retry": retry}
         return {"validation_error": err, "retry": retry}
 
     return {"validation_error": "", "retry": 0}
@@ -206,14 +204,10 @@ def execute_node(state):
     r = state.get("round", 1)
 
     entry = {
-        "mode": MODE,
-        "round": r,
-        "candidate_id": cid,
+        "mode": MODE, "round": r, "candidate_id": cid,
         "composition": POOL_BY_ID[cid]["composition"],
-        "delta_eta_mv": res["delta_eta_mv"],
-        "rank": res["rank"],
-        "top10": res["top10"],
-        "reason": cand.get("reason", ""),
+        "delta_eta_mv": res["delta_eta_mv"], "rank": res["rank"],
+        "top10": res["top10"], "reason": cand.get("reason", ""),
         "evidence_chunk_ids": cand.get("evidence_chunk_ids", []),
     }
 
@@ -224,6 +218,21 @@ def execute_node(state):
 
     print(f"  [execute] 第{r}轮 {cid} {entry['composition'][:30]} "
           f"-> Δη={res['delta_eta_mv']:.1f} mV | rank {res['rank']}")
+
+    if MODE == "memory" and GM is not None:
+        try:
+            GM.record_round(
+                run_id=state.get("run_id", "adhoc"),
+                round_num=r,
+                candidate_id=cid,
+                delta_eta=res["delta_eta_mv"],
+                reason=cand.get("reason", ""),
+                evidence_ids=cand.get("evidence_chunk_ids", []),
+                direction="improve" if "improve" in str(cand.get("expected_direction", "")) else "uncertain",
+            )
+            print("    [neo4j] 已写回图谱")
+        except Exception as e:
+            print("    [neo4j] 写回失败：", type(e).__name__, str(e)[:120])
 
     with open(state["log_path"], "a", encoding="utf-8") as f:
         f.write(json.dumps({**entry, "best_so_far": best["delta_eta_mv"]},
@@ -238,12 +247,11 @@ def diagnose_node(state):
     prev = [h["delta_eta_mv"] for h in hist[:-1]]
 
     if not prev:
-        text = f"首轮基准：Δη={cur['delta_eta_mv']:.1f} mV。下一轮在该体系内细化比例。"
+        text = f"首轮基准：Δη={cur['delta_eta_mv']:.1f} mV。"
     elif cur["delta_eta_mv"] < min(prev):
-        text = f"改善：Δη 从 {min(prev):.1f} 降到 {cur['delta_eta_mv']:.1f} mV。继续在该体系内细化。"
+        text = f"改善：Δη 从 {min(prev):.1f} 降到 {cur['delta_eta_mv']:.1f} mV。"
     else:
-        text = (f"未改善：Δη={cur['delta_eta_mv']:.1f} mV，差于最佳 {min(prev):.1f} mV。"
-                f"下一轮换元素体系，不要在同一组元素上微调。")
+        text = f"未改善：{cur['delta_eta_mv']:.1f} mV，差于最佳 {min(prev):.1f} mV，下一轮换体系。"
 
     print(f"  [diagnose] {text}")
     return {"last_diagnosis": text}
@@ -275,15 +283,16 @@ app = g.compile()
 def run(max_rounds=20):
     stamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     log_path = RUN_DIR / f"run_{stamp}.jsonl"
+    run_id = f"run_{stamp}"
 
     init = {
         "round": 1, "max_rounds": max_rounds, "history": [], "best": None,
         "literature": "", "available_evidence": [], "candidate": None,
         "validation_error": "", "retry": 0, "log_path": str(log_path),
-        "last_diagnosis": "",
+        "run_id": run_id, "last_diagnosis": "",
     }
 
-    print(f"模式: {MODE} | 轮数: {max_rounds} | 日志 {log_path}")
+    print(f"模式: {MODE} | 轮数: {max_rounds} | 图谱记忆: {'开' if GM else '关'} | 日志 {log_path}")
     out = app.invoke(init, config={"recursion_limit": 500})
 
     best = out.get("best") or {}
@@ -295,13 +304,11 @@ def run(max_rounds=20):
 
 def main():
     global MODE, llm
-
     parser = argparse.ArgumentParser()
     parser.add_argument("--mode", choices=["memory", "lit_only"], default="memory")
     parser.add_argument("--rounds", type=int, default=DEFAULT_ROUNDS)
     parser.add_argument("--temp", type=float, default=0.2)
     args = parser.parse_args()
-
     MODE = args.mode
     llm = make_llm(args.temp)
     run(max_rounds=args.rounds)

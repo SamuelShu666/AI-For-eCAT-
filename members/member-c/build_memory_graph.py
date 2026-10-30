@@ -90,15 +90,19 @@ def seed_candidate_pool(driver: Driver, xlsx_path: Path = DEFAULT_XLSX) -> int:
     for row_index, row in df.iterrows():
         cid = str(row["候选ID"]).strip()
         raw = str(row["Ni组合方案"]).strip()
-        names = [part.strip() for part in str(row["组合元素"]).split(",") if part.strip()]
+        names = [part.strip() for part in re.split(r"[+,]", str(row["组合元素"])) if part.strip()]
         fractions = {symbol: _number(row[symbol]) for symbol in ELEMENTS}
         fractions = {symbol: value for symbol, value in fractions.items() if value is not None and value != 0}
         if not names:
             names = list(fractions)
-        if set(names) != set(fractions):
-            raise ValueError(f"{cid}: 组合元素与元素分数非零列不一致")
-        if len(names) != len(set(names)):
-            raise ValueError(f"{cid}: 组合元素重复")
+        # 该数据集的“组合元素”列省略了主元素 Ni，这里补齐后再比对
+        declared = set(names) | ({"Ni"} & set(fractions))
+        if declared != set(fractions):
+            raise ValueError(
+                f"{cid}: 组合元素与元素分数非零列不一致 "
+                f"(声明={sorted(declared)}, 分数={sorted(fractions)})"
+            )
+        names = [e for e in ELEMENTS if e in fractions]
         records.append({
             "candidate_id": cid,
             "composition_raw": raw,
@@ -287,12 +291,12 @@ def import_agent_v5_aliases(
         raise FileNotFoundError(f"需要同时提供 {registry_path.name} 和 {chunks_path.name}")
     with registry_path.open(encoding="utf-8-sig", newline="") as f:
         registry = {row["paper_id"]: row["source_file"] for row in csv.DictReader(f)}
-    known_sources: dict[str, list[str]] = {}
+    known_sources: dict[str, set[str]] = {}
     if chunks_source_path.exists():
         for item in json.loads(chunks_source_path.read_text(encoding="utf-8")):
             source = str(item.get("file", ""))
             if source:
-                known_sources.setdefault(Path(source).name, []).append(source)
+                known_sources.setdefault(Path(source).name, set()).add(source)
     aliases: list[dict[str, Any]] = []
     with chunks_path.open(encoding="utf-8-sig", newline="") as f:
         for row in csv.DictReader(f):
@@ -303,7 +307,7 @@ def import_agent_v5_aliases(
             matches = known_sources.get(source_file, [])
             if len(matches) > 1:
                 raise ValueError(f"PDF basename 在 v2 文献中不唯一，拒绝猜测: {source_file}")
-            canonical_source = matches[0] if matches else f"member_a_agent_v5/{source_file}"
+            canonical_source = next(iter(matches)) if matches else f"member_a_agent_v5/{source_file}"
             paper_id = _paper_key(canonical_source)
             text = row["original_chunk_text"].strip()
             page = int(row["page_start"]) if row.get("page_start", "").isdigit() else None

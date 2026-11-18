@@ -167,7 +167,27 @@ h1,h2,h3,h4,.brand{color:var(--ink)}
 .dot.pulse{box-shadow:0 0 0 4px rgba(45,212,191,.2);animation:pulseDot 2.1s infinite}
 @keyframes pulseDot{0%,100%{box-shadow:0 0 0 2px rgba(45,212,191,.28)}50%{box-shadow:0 0 0 7px rgba(45,212,191,.04)}}
 
-/* Sticky Cockpit Header */
+/* App Shell: Full-Height Non-Overlapping Left Sidebar + Main Workspace */
+.app-shell{
+  display:flex;
+  min-height:100vh;
+  width:100%;
+  position:relative;
+  z-index:1;
+}
+.app-main{
+  flex:1;
+  min-width:0;
+  display:flex;
+  flex-direction:column;
+  min-height:100vh;
+}
+.workspace-views{
+  flex:1;
+  min-width:0;
+}
+
+/* Sticky Top Workspace Bar */
 nav.cockpit-nav{
   position:sticky;top:0;z-index:50;
   background:rgba(6,13,20,.88);
@@ -175,21 +195,36 @@ nav.cockpit-nav{
   border-bottom:1px solid var(--line);
 }
 nav.cockpit-nav .wrap{
-  min-height:64px;
+  min-height:60px;
   display:flex;
   align-items:center;
   gap:16px;
   flex-wrap:nowrap;
 }
-.brand{display:flex;align-items:center;gap:10px;font-weight:750;font-size:16px;letter-spacing:-.01em;flex:none}
+.top-breadcrumb{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  min-width:0;
+  font-size:13px;
+}
+.top-breadcrumb .tb-root{
+  color:var(--faint);
+  font-family:var(--mono);
+  font-size:11.5px;
+  letter-spacing:.04em;
+}
+.top-breadcrumb .tb-sep{color:var(--faint);opacity:.65}
+.top-breadcrumb b{color:var(--ink);font-weight:650;white-space:nowrap}
+.mobile-brand{display:none;align-items:center;gap:8px;font-weight:750;font-size:15px;flex:none}
 .brand-mark{
-  width:32px;height:32px;border-radius:9px;
+  width:36px;height:36px;border-radius:10px;
   background:linear-gradient(135deg,#0F766E,#14B8A6);
   color:#031214;display:grid;place-items:center;
   font-family:var(--mono);font-size:14px;font-weight:800;
   box-shadow:0 0 18px rgba(20,184,166,.35);
+  flex:none;
 }
-.brand small{display:block;font-weight:500;color:var(--teal2);font-size:10px;letter-spacing:.08em;line-height:1.1}
 
 .scenario-pill{
   display:flex;align-items:center;gap:8px;
@@ -223,51 +258,76 @@ body.light-theme .theme-icon-btn .icon-sun{display:none}
 body.light-theme .theme-icon-btn .icon-moon{display:block}
 body.light-theme nav.cockpit-nav{background:#F7F9F8;backdrop-filter:none;border-bottom-color:rgba(15,118,110,.15)}
 
-/* Collapsible Left Dock Navigation */
+/* Structural Non-Overlapping Left Sidebar */
 .left-dock{
-  position:fixed;
-  left:12px;
-  top:50%;
-  transform:translateY(-50%);
+  position:sticky;
+  top:0;
+  height:100vh;
+  width:68px;
+  flex:none;
   z-index:65;
-  width:56px;
-  padding:10px 8px;
   display:flex;
   flex-direction:column;
-  gap:5px;
-  background:rgba(8,19,29,.86);
+  background:rgba(5,11,18,.94);
   backdrop-filter:blur(18px);
-  border:1px solid var(--line);
-  border-radius:16px;
-  box-shadow:0 18px 46px rgba(2,6,12,.58);
-  transition:width .24s cubic-bezier(.22,1,.36,1),padding .24s ease,box-shadow .24s ease,border-color .24s ease;
+  border-right:1px solid var(--line);
+  transition:width .22s cubic-bezier(.22,1,.36,1),border-color .18s ease;
   overflow:hidden;
 }
 .left-dock:hover,.left-dock:focus-within,.left-dock.expanded{
-  width:218px;
-  padding:10px;
-  border-color:rgba(45,212,191,.36);
-  box-shadow:0 22px 54px rgba(2,6,12,.72);
+  width:228px;
+  border-right-color:rgba(45,212,191,.34);
+}
+.dock-brand{
+  height:60px;
+  padding:0 16px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  border-bottom:1px solid var(--line-soft);
+  flex:none;
+  white-space:nowrap;
+  overflow:hidden;
+}
+.dock-brand-text{
+  opacity:0;
+  transform:translateX(-6px);
+  transition:opacity .18s ease,transform .18s ease;
+  display:flex;
+  flex-direction:column;
+  line-height:1.15;
+}
+.dock-brand-text b{font-size:15px;font-weight:750;color:var(--ink);letter-spacing:-.01em}
+.dock-brand-text small{font-size:9.5px;color:var(--teal2);font-family:var(--mono);letter-spacing:.08em}
+.dock-nav{
+  flex:1;
+  padding:14px 10px;
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  overflow-y:auto;
+  overflow-x:hidden;
 }
 .dock-item{
   display:flex;
   align-items:center;
-  gap:11px;
-  height:42px;
-  padding:0 9px;
+  gap:12px;
+  height:44px;
+  padding:0 12px;
   border-radius:11px;
   color:var(--muted);
   position:relative;
   overflow:hidden;
   white-space:nowrap;
-  transition:background .16s ease,color .16s ease;
+  transition:background .16s ease,color .16s ease,box-shadow .16s ease;
+  flex:none;
 }
 .dock-item::before{
   content:"";
   position:absolute;
   left:0;
-  top:9px;
-  bottom:9px;
+  top:10px;
+  bottom:10px;
   width:3px;
   border-radius:0 4px 4px 0;
   background:var(--teal2);
@@ -275,28 +335,29 @@ body.light-theme nav.cockpit-nav{background:#F7F9F8;backdrop-filter:none;border-
   transition:opacity .16s ease;
 }
 .dock-item:hover{
-  background:rgba(20,184,166,.10);
+  background:rgba(255,255,255,.05);
   color:var(--ink);
 }
 .dock-item.active{
   background:rgba(20,184,166,.15);
   color:var(--teal2);
+  box-shadow:inset 0 0 0 1px rgba(45,212,191,.28);
 }
 .dock-item.active::before{opacity:1}
 .dock-icon{
-  width:22px;
-  height:22px;
+  width:24px;
+  height:24px;
   flex:none;
   display:inline-flex;
   align-items:center;
   justify-content:center;
 }
 .dock-icon svg{
-  width:20px;
-  height:20px;
+  width:19px;
+  height:19px;
   stroke:currentColor;
   fill:none;
-  stroke-width:1.85;
+  stroke-width:1.9;
   stroke-linecap:round;
   stroke-linejoin:round;
 }
@@ -313,23 +374,68 @@ body.light-theme nav.cockpit-nav{background:#F7F9F8;backdrop-filter:none;border-
 .dock-text b{font-size:12.5px;font-weight:650;color:var(--ink)}
 .dock-item.active .dock-text b{color:var(--teal2)}
 .dock-text small{font-size:10px;color:var(--faint);font-family:var(--mono)}
-.left-dock:hover .dock-text,.left-dock:focus-within .dock-text,.left-dock.expanded .dock-text{
+.dock-foot{
+  padding:12px 16px;
+  border-top:1px solid var(--line-soft);
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-family:var(--mono);
+  font-size:10.5px;
+  color:var(--muted);
+  white-space:nowrap;
+  overflow:hidden;
+  flex:none;
+}
+.dock-foot .dock-status-dot{
+  width:36px;
+  flex:none;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+}
+.left-dock:hover .dock-text,.left-dock:focus-within .dock-text,.left-dock.expanded .dock-text,
+.left-dock:hover .dock-brand-text,.left-dock:focus-within .dock-brand-text,.left-dock.expanded .dock-brand-text{
   opacity:1;
   transform:translateX(0);
 }
 body.light-theme .left-dock{
-  background:rgba(255,255,255,.94);
-  border-color:rgba(13,148,136,.26);
-  box-shadow:0 14px 36px rgba(15,34,32,.11);
+  background:#F7FAF9;
+  backdrop-filter:none;
+  border-right-color:rgba(13,148,136,.22);
 }
 body.light-theme .left-dock:hover,body.light-theme .left-dock:focus-within,body.light-theme .left-dock.expanded{
-  border-color:rgba(13,148,136,.46);
-  box-shadow:0 18px 44px rgba(15,34,32,.16);
+  border-right-color:rgba(13,148,136,.42);
 }
 body.light-theme .dock-item:hover{background:rgba(13,148,136,.08);color:#0F2220}
-body.light-theme .dock-item.active{background:rgba(13,148,136,.12);color:#0F766E}
+body.light-theme .dock-item.active{background:rgba(13,148,136,.12);color:#0F766E;box-shadow:inset 0 0 0 1px rgba(13,148,136,.28)}
 body.light-theme .dock-item.active .dock-text b{color:#0F766E}
 body.light-theme .dock-item::before{background:#0D9488}
+
+/* Standalone Sub-Page Views */
+.page-view{
+  display:none;
+  padding:28px 0 36px;
+  border-top:0;
+  animation:pageFade .14s ease;
+}
+.page-view.active-page{display:block}
+@keyframes pageFade{from{opacity:.85;transform:translateY(3px)}to{opacity:1;transform:translateY(0)}}
+
+.page-pager-wrap{padding:10px 0 26px}
+.page-pager{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  padding:14px 18px;
+  border-radius:14px;
+  background:var(--panel);
+  border:1px solid var(--line-soft);
+}
+.pager-mid{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.loop-pill[data-goto]{cursor:pointer;transition:transform .16s ease,border-color .16s ease}
+.loop-pill[data-goto]:hover{transform:translateY(-2px);border-color:rgba(45,212,191,.42)}
 body.light-theme .scenario-pill{background:#FFFFFF;border-color:rgba(13,148,136,.28)}
 body.light-theme .scenario-pill select option,body.light-theme .select-dark option,body.light-theme .select option{background:#FFFFFF;color:#0F2220}
 body.light-theme .btn{background:#FFFFFF;border-color:rgba(15,34,32,.14);color:#0F2220}
@@ -946,25 +1052,31 @@ body.drawer-open #drawerBackdrop{opacity:1;pointer-events:auto}
   .run-insight{grid-column:1/-1;position:static;display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
   .search-results{grid-template-columns:1fr 1fr}
 }
-@media(min-width:861px){
-  body{padding-left:72px}
-}
 @media(max-width:860px){
+  .app-shell{display:block}
   .wrap{padding:0 14px}
   nav.cockpit-nav .wrap{flex-wrap:wrap;padding-top:8px;padding-bottom:8px;gap:8px}
+  .mobile-brand{display:flex}
+  .top-breadcrumb{display:none}
   .scenario-pill{max-width:100%;width:100%;order:3}
   .scenario-pill select{max-width:100%;width:100%}
   .nav-actions{margin-left:auto}
   .left-dock{
+    position:fixed;
     top:auto;bottom:10px;left:50%;transform:translateX(-50%);
-    width:auto!important;max-width:calc(100vw - 24px);
-    flex-direction:row;padding:6px 8px!important;gap:4px;border-radius:14px;
+    height:auto;width:auto!important;max-width:calc(100vw - 24px);
+    flex-direction:row;padding:6px 8px!important;border-radius:14px;
+    border:1px solid var(--line);border-right:1px solid var(--line);
+    box-shadow:0 14px 36px rgba(2,6,12,.6);
     overflow-x:auto;
   }
+  .dock-brand,.dock-foot{display:none}
+  .dock-nav{flex-direction:row;padding:0;gap:4px;overflow:visible}
   .left-dock .dock-item{width:38px;height:38px;padding:0;justify-content:center;flex:none}
   .left-dock .dock-item::before{display:none}
   .left-dock .dock-text{display:none!important}
   body{padding-bottom:68px}
+  .page-pager{flex-wrap:wrap;justify-content:center}
   .active-instance-bar{width:100%}
   .cockpit-grid{grid-template-columns:1fr}
   .loop-ribbon,.scenario-grid,.sp-steps,.sm-nodes,.impact-kpis,.boundary-grid{grid-template-columns:1fr 1fr}
@@ -996,13 +1108,80 @@ body.drawer-open #drawerBackdrop{opacity:1;pointer-events:auto}
 </head>
 <body>
 
-<!-- Sticky Top Cockpit Header: Brand + Scenario Switcher on Left, Theme Toggle Only on Right -->
+<div class="app-shell">
+<!-- Full-Height Non-Overlapping Collapsible Left Sidebar -->
+<aside class="left-dock" id="leftDock" aria-label="功能导航工具栏">
+  <a class="dock-brand" href="#overview" title="返回平台总览">
+    <span class="brand-mark">eC</span>
+    <span class="dock-brand-text"><b>eCAT-OS</b><small>SCIENTIFIC OS</small></span>
+  </a>
+
+  <nav class="dock-nav" aria-label="子页面切换">
+    <a class="dock-item active" href="#overview" data-sec="overview" title="平台总览">
+      <span class="dock-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="8" height="8" rx="2"/><rect x="13" y="3" width="8" height="5" rx="1.5"/><rect x="13" y="10" width="8" height="11" rx="2"/><rect x="3" y="13" width="8" height="8" rx="2"/></svg>
+      </span>
+      <span class="dock-text"><b>平台总览</b><small>01 · 总览控制台</small></span>
+    </a>
+    <a class="dock-item" href="#scenarios" data-sec="scenarios" title="场景中心">
+      <span class="dock-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="2.5"/><path d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M18.4 5.6l-2.8 2.8M8.4 15.6l-2.8 2.8"/></svg>
+      </span>
+      <span class="dock-text"><b>场景中心</b><small>02 · 12+ 科研场景</small></span>
+    </a>
+    <a class="dock-item" href="#agent-core" data-sec="agent-core" title="决策中枢">
+      <span class="dock-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2.5"/><path d="M9 1v3M15 1v3M9 20v3M15 20v3M1 9h3M1 15h3M20 9h3M20 15h3"/><circle cx="12" cy="12" r="2.2"/></svg>
+      </span>
+      <span class="dock-text"><b>决策中枢</b><small>03 · 状态机与规则</small></span>
+    </a>
+    <a class="dock-item" href="#memory-graph" data-sec="memory-graph" title="记忆图谱">
+      <span class="dock-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><circle cx="6" cy="7" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="18" cy="18" r="2.5"/><circle cx="7" cy="18" r="2.5"/><circle cx="12" cy="12" r="2"/><path d="M8.2 8.2l2.4 2.4M15.8 7.5l-2.4 3M13.4 13.4l3 3M8.8 16.4l1.8-2.8M8.5 7h7"/></svg>
+      </span>
+      <span class="dock-text"><b>记忆图谱</b><small>04 · 动态生长图谱</small></span>
+    </a>
+    <a class="dock-item" href="#electrochem-bench" data-sec="electrochem-bench" title="电化学工作台">
+      <span class="dock-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M6 4h12v14a3 3 0 0 1-3 3H9a3 3 0 0 1-3-3V4z"/><path d="M4 4h16M10 2v7M14 2v7"/><path d="M6.5 14.5c2-2 3.5-2 5.5 0s3.5 2 5.5 0"/></svg>
+      </span>
+      <span class="dock-text"><b>电化学工作台</b><small>05 · 装置与极化曲线</small></span>
+    </a>
+    <a class="dock-item" href="#replay" data-sec="replay" title="实验回放">
+      <span class="dock-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/><polygon points="10 9 16 12 10 15"/></svg>
+      </span>
+      <span class="dock-text"><b>实验回放</b><small>06 · 20 轮闭环回放</small></span>
+    </a>
+    <a class="dock-item" href="#quantified" data-sec="quantified" title="效果量化">
+      <span class="dock-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M3 20h18"/><rect x="5" y="12" width="3" height="8" rx="0.8"/><rect x="10.5" y="8" width="3" height="12" rx="0.8"/><rect x="16" y="4" width="3" height="16" rx="0.8"/><path d="M4 9l5.5-4.5L13 7l6-4.5"/></svg>
+      </span>
+      <span class="dock-text"><b>效果量化</b><small>07 · 排名与收敛战报</small></span>
+    </a>
+  </nav>
+
+  <div class="dock-foot" title="v5.2 实测数据集与 11 次完整运行已就绪">
+    <span class="dock-status-dot"><span class="dot pulse" style="color:var(--teal2)"></span></span>
+    <span class="dock-text"><b>闭环在线</b><small>11 RUNS · 2233 证据</small></span>
+  </div>
+</aside>
+
+<div class="app-main">
+<!-- Sticky Top Workspace Header: Breadcrumb + Scenario Switcher on Left, Theme Toggle Only on Right -->
 <nav class="cockpit-nav">
   <div class="wrap">
-    <a class="brand" href="#overview">
-      <span class="brand-mark">eC</span>
-      <span>eCAT-OS<small>SCIENTIFIC DECISION PLATFORM</small></span>
+    <a class="mobile-brand" href="#overview">
+      <span class="brand-mark" style="width:32px;height:32px">eC</span>
+      <span>eCAT-OS</span>
     </a>
+
+    <div class="top-breadcrumb">
+      <span class="tb-root">eCAT-OS</span>
+      <span class="tb-sep">/</span>
+      <b id="topPageTitle">01 · 平台总览</b>
+      <span class="tag good" id="topPageBadge">CONSOLE</span>
+    </div>
 
     <div class="scenario-pill" title="全局场景切换：随时浏览或切换验证场景">
       <span class="sp-lbl">场景</span>
@@ -1018,55 +1197,9 @@ body.drawer-open #drawerBackdrop{opacity:1;pointer-events:auto}
   </div>
 </nav>
 
-<!-- Left Collapsible Dock Toolbar (expands when pointer moves to left edge, collapses to content icons in center) -->
-<aside class="left-dock" id="leftDock" aria-label="功能导航工具栏">
-  <a class="dock-item active" href="#overview" data-sec="overview" title="平台总览">
-    <span class="dock-icon" aria-hidden="true">
-      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="8" height="8" rx="2"/><rect x="13" y="3" width="8" height="5" rx="1.5"/><rect x="13" y="10" width="8" height="11" rx="2"/><rect x="3" y="13" width="8" height="8" rx="2"/></svg>
-    </span>
-    <span class="dock-text"><b>平台总览</b><small>01 · 总览控制台</small></span>
-  </a>
-  <a class="dock-item" href="#scenarios" data-sec="scenarios" title="场景中心">
-    <span class="dock-icon" aria-hidden="true">
-      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="2.5"/><path d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M18.4 5.6l-2.8 2.8M8.4 15.6l-2.8 2.8"/></svg>
-    </span>
-    <span class="dock-text"><b>场景中心</b><small>02 · 12+ 科研场景</small></span>
-  </a>
-  <a class="dock-item" href="#agent-core" data-sec="agent-core" title="决策中枢">
-    <span class="dock-icon" aria-hidden="true">
-      <svg viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2.5"/><path d="M9 1v3M15 1v3M9 20v3M15 20v3M1 9h3M1 15h3M20 9h3M20 15h3"/><circle cx="12" cy="12" r="2.2"/></svg>
-    </span>
-    <span class="dock-text"><b>决策中枢</b><small>03 · 状态机与规则</small></span>
-  </a>
-  <a class="dock-item" href="#memory-graph" data-sec="memory-graph" title="记忆图谱">
-    <span class="dock-icon" aria-hidden="true">
-      <svg viewBox="0 0 24 24"><circle cx="6" cy="7" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="18" cy="18" r="2.5"/><circle cx="7" cy="18" r="2.5"/><circle cx="12" cy="12" r="2"/><path d="M8.2 8.2l2.4 2.4M15.8 7.5l-2.4 3M13.4 13.4l3 3M8.8 16.4l1.8-2.8M8.5 7h7"/></svg>
-    </span>
-    <span class="dock-text"><b>记忆图谱</b><small>04 · 动态生长图谱</small></span>
-  </a>
-  <a class="dock-item" href="#electrochem-bench" data-sec="electrochem-bench" title="电化学工作台">
-    <span class="dock-icon" aria-hidden="true">
-      <svg viewBox="0 0 24 24"><path d="M6 4h12v14a3 3 0 0 1-3 3H9a3 3 0 0 1-3-3V4z"/><path d="M4 4h16M10 2v7M14 2v7"/><path d="M6.5 14.5c2-2 3.5-2 5.5 0s3.5 2 5.5 0"/></svg>
-    </span>
-    <span class="dock-text"><b>电化学工作台</b><small>05 · 装置与极化曲线</small></span>
-  </a>
-  <a class="dock-item" href="#replay" data-sec="replay" title="实验回放">
-    <span class="dock-icon" aria-hidden="true">
-      <svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/><polygon points="10 9 16 12 10 15"/></svg>
-    </span>
-    <span class="dock-text"><b>实验回放</b><small>06 · 20 轮闭环回放</small></span>
-  </a>
-  <a class="dock-item" href="#quantified" data-sec="quantified" title="效果量化">
-    <span class="dock-icon" aria-hidden="true">
-      <svg viewBox="0 0 24 24"><path d="M3 20h18"/><rect x="5" y="12" width="3" height="8" rx="0.8"/><rect x="10.5" y="8" width="3" height="12" rx="0.8"/><rect x="16" y="4" width="3" height="16" rx="0.8"/><path d="M4 9l5.5-4.5L13 7l6-4.5"/></svg>
-    </span>
-    <span class="dock-text"><b>效果量化</b><small>07 · 排名与收敛战报</small></span>
-  </a>
-</aside>
-
-<main>
+<main class="workspace-views">
 <!-- 01. 平台总览（科研决策控制台） -->
-<header class="hero" id="overview">
+<header class="hero page-view active-page" id="overview" data-page="overview">
   <div class="wrap">
     <div class="hero-topbar">
       <div class="hero-headline">
@@ -1163,16 +1296,16 @@ body.drawer-open #drawerBackdrop{opacity:1;pointer-events:auto}
     </div>
 
     <div class="loop-ribbon">
-      <div class="loop-pill"><span class="lp-no">01</span><div><b>知识与机理导入</b><span>PDF 证据锚定 + 元素先验</span></div></div>
-      <div class="loop-pill"><span class="lp-no">02</span><div><b>记忆驱动决策</b><span>余弦相似实验 + 悬崖预警</span></div></div>
-      <div class="loop-pill"><span class="lp-no">03</span><div><b>硬约束与装备执行</b><span>8 条红线校验 + 工况接口</span></div></div>
-      <div class="loop-pill"><span class="lp-no">04</span><div><b>诊断写回与生长</b><span>节点递增演化，避免盲目试错</span></div></div>
+      <div class="loop-pill" data-goto="agent-core"><span class="lp-no">01</span><div><b>知识与机理导入</b><span>PDF 证据锚定 + 元素先验 →</span></div></div>
+      <div class="loop-pill" data-goto="memory-graph"><span class="lp-no">02</span><div><b>记忆驱动决策</b><span>余弦相似实验 + 悬崖预警 →</span></div></div>
+      <div class="loop-pill" data-goto="electrochem-bench"><span class="lp-no">03</span><div><b>硬约束与装备执行</b><span>8 条红线校验 + 工况接口 →</span></div></div>
+      <div class="loop-pill" data-goto="replay"><span class="lp-no">04</span><div><b>诊断写回与生长</b><span>节点递增演化，避免盲目试错 →</span></div></div>
     </div>
   </div>
 </header>
 
 <!-- 02. 场景中心（12+ 通用科研与装备场景） -->
-<section id="scenarios">
+<section class="page-view" id="scenarios" data-page="scenarios">
   <div class="wrap">
     <div class="sec-head">
       <div>
@@ -1195,7 +1328,7 @@ body.drawer-open #drawerBackdrop{opacity:1;pointer-events:auto}
 </section>
 
 <!-- 03. Agent 决策中枢 -->
-<section id="agent-core">
+<section class="page-view" id="agent-core" data-page="agent-core">
   <div class="wrap">
     <div class="sec-head">
       <div>
@@ -1238,7 +1371,7 @@ body.drawer-open #drawerBackdrop{opacity:1;pointer-events:auto}
 </section>
 
 <!-- 04. 动态科研记忆图谱（v5 同源 5 阶段动态生长） -->
-<section id="memory-graph">
+<section class="page-view" id="memory-graph" data-page="memory-graph">
   <div class="wrap">
     <div class="sec-head">
       <div>
@@ -1290,7 +1423,7 @@ body.drawer-open #drawerBackdrop{opacity:1;pointer-events:auto}
 </section>
 
 <!-- 05. 电化学场景工作台 -->
-<section id="electrochem-bench">
+<section class="page-view" id="electrochem-bench" data-page="electrochem-bench">
   <div class="wrap">
     <div class="sec-head">
       <div>
@@ -1348,7 +1481,7 @@ body.drawer-open #drawerBackdrop{opacity:1;pointer-events:auto}
 </section>
 
 <!-- 06. 本次实验闭环回放 & 文献检索 -->
-<section id="replay">
+<section class="page-view" id="replay" data-page="replay">
   <div class="wrap">
     <div class="sec-head">
       <div>
@@ -1431,7 +1564,7 @@ body.drawer-open #drawerBackdrop{opacity:1;pointer-events:auto}
 </section>
 
 <!-- 07. 效果量化 -->
-<section id="quantified">
+<section class="page-view" id="quantified" data-page="quantified">
   <div class="wrap">
     <div class="sec-head">
       <div>
@@ -1550,6 +1683,16 @@ body.drawer-open #drawerBackdrop{opacity:1;pointer-events:auto}
 </section>
 </main>
 
+<div class="page-pager-wrap">
+  <div class="wrap">
+    <div class="page-pager">
+      <button class="btn" id="prevPageBtn" type="button">← 上一页</button>
+      <span class="pager-mid" id="pagerIndicator">01 / 07 · 平台总览</span>
+      <button class="btn primary" id="nextPageBtn" type="button">下一页 →</button>
+    </div>
+  </div>
+</div>
+
 <footer>
   <div class="wrap">
     <div class="foot-grid">
@@ -1565,12 +1708,14 @@ body.drawer-open #drawerBackdrop{opacity:1;pointer-events:auto}
         <div class="foot-links">
           <a href="archive-v5-editorial.html">查看旧版学术白底页面 (v5)</a>
           <a href="https://samuelshu666.github.io/AI-For-eCAT-/" target="_blank" rel="noopener">GitHub Pages</a>
-          <a href="#overview">返回控制舱顶部 ↑</a>
+          <a href="#overview">返回平台总览 ↑</a>
         </div>
       </div>
     </div>
   </div>
 </footer>
+</div><!-- /.app-main -->
+</div><!-- /.app-shell -->
 
 <div id="hoverTip" class="tooltip-float" role="tooltip"></div>
 <div id="drawerBackdrop"></div>
@@ -1793,7 +1938,7 @@ body.drawer-open #drawerBackdrop{opacity:1;pointer-events:auto}
     renderScenarioGrid();
     renderScenarioPreview();
     if (scrollIfEchem && id === 'her_anti_rc') {
-      document.getElementById('electrochem-bench').scrollIntoView({ behavior: 'smooth' });
+      switchPage('electrochem-bench');
     }
   }
 
@@ -2579,11 +2724,59 @@ body.drawer-open #drawerBackdrop{opacity:1;pointer-events:auto}
     renderTrajectoryChart();
   }
 
+  const PAGES = [
+    { id: 'overview', no: '01', title: '平台总览', badge: 'CONSOLE' },
+    { id: 'scenarios', no: '02', title: '场景中心', badge: '12+ DOMAINS' },
+    { id: 'agent-core', no: '03', title: '决策中枢', badge: '5 NODES' },
+    { id: 'memory-graph', no: '04', title: '记忆图谱', badge: 'GROWTH' },
+    { id: 'electrochem-bench', no: '05', title: '电化学工作台', badge: 'INSTANCE #01' },
+    { id: 'replay', no: '06', title: '实验回放', badge: '11 RUNS' },
+    { id: 'quantified', no: '07', title: '效果量化', badge: 'BENCHMARK' },
+  ];
+  const pageIds = new Set(PAGES.map(p => p.id));
+
+  function switchPage(pageId, updateHash = true) {
+    const idx = PAGES.findIndex(p => p.id === pageId);
+    const meta = idx >= 0 ? PAGES[idx] : PAGES[0];
+    const safeIdx = idx >= 0 ? idx : 0;
+    state.currentPage = meta.id;
+
+    $$('.page-view').forEach(el => {
+      el.classList.toggle('active-page', el.id === meta.id);
+    });
+    $$('#leftDock .dock-item').forEach(el => {
+      el.classList.toggle('active', el.dataset.sec === meta.id);
+    });
+
+    const titleEl = $('#topPageTitle');
+    const badgeEl = $('#topPageBadge');
+    if (titleEl) titleEl.textContent = `${meta.no} · ${meta.title}`;
+    if (badgeEl) badgeEl.textContent = meta.badge;
+
+    const prevMeta = PAGES[(safeIdx - 1 + PAGES.length) % PAGES.length];
+    const nextMeta = PAGES[(safeIdx + 1) % PAGES.length];
+    const prevBtn = $('#prevPageBtn');
+    const nextBtn = $('#nextPageBtn');
+    const ind = $('#pagerIndicator');
+    if (prevBtn) {
+      prevBtn.dataset.goto = prevMeta.id;
+      prevBtn.textContent = `← 上一页：${prevMeta.no} ${prevMeta.title}`;
+    }
+    if (nextBtn) {
+      nextBtn.dataset.goto = nextMeta.id;
+      nextBtn.textContent = `下一页：${nextMeta.no} ${nextMeta.title} →`;
+    }
+    if (ind) ind.textContent = `${meta.no} / 0${PAGES.length} · ${meta.title}`;
+
+    if (updateHash && location.hash !== '#' + meta.id) {
+      try { history.replaceState(null, '', '#' + meta.id); } catch (_) { location.hash = meta.id; }
+    }
+    window.scrollTo({ top: 0, behavior: 'auto' });
+  }
+
   function initLeftDock() {
     const dock = $('#leftDock');
     if (!dock) return;
-    const items = $$('#leftDock .dock-item');
-    const secIds = items.map(el => el.dataset.sec);
 
     function setDockExpanded(expand) {
       if (window.innerWidth <= 860) {
@@ -2593,49 +2786,42 @@ body.drawer-open #drawerBackdrop{opacity:1;pointer-events:auto}
       dock.classList.toggle('expanded', expand);
     }
 
-    function setActiveSec(id) {
-      items.forEach(item => item.classList.toggle('active', item.dataset.sec === id));
-    }
-
     dock.addEventListener('mouseenter', () => setDockExpanded(true));
     dock.addEventListener('mouseleave', e => {
-      if (e.clientX > 236) setDockExpanded(false);
+      if (e.clientX > 232) setDockExpanded(false);
     });
     window.addEventListener('mousemove', e => {
       if (window.innerWidth <= 860) return;
       const inDock = e.target instanceof Node && dock.contains(e.target);
-      if (e.clientX <= 76 || inDock) {
+      if (e.clientX <= 68 || inDock) {
         setDockExpanded(true);
-      } else if (e.clientX > 236) {
+      } else if (e.clientX > 232) {
         setDockExpanded(false);
       }
     }, { passive: true });
     document.addEventListener('mouseleave', () => setDockExpanded(false));
 
-    items.forEach(item => {
-      item.addEventListener('click', () => setActiveSec(item.dataset.sec));
-    });
-
-    let scrollRaf = 0;
-    function updateActiveOnScroll() {
-      scrollRaf = 0;
-      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 40) {
-        setActiveSec(secIds[secIds.length - 1]);
+    document.addEventListener('click', e => {
+      const goEl = e.target.closest('[data-goto]');
+      if (goEl && pageIds.has(goEl.dataset.goto)) {
+        e.preventDefault();
+        switchPage(goEl.dataset.goto);
         return;
       }
-      let current = secIds[0];
-      for (const id of secIds) {
-        const sec = document.getElementById(id);
-        if (sec && sec.getBoundingClientRect().top <= 180) {
-          current = id;
+      const link = e.target.closest('a[href^="#"]');
+      if (link) {
+        const targetId = link.getAttribute('href').slice(1);
+        if (pageIds.has(targetId)) {
+          e.preventDefault();
+          switchPage(targetId);
         }
       }
-      setActiveSec(current);
-    }
-    window.addEventListener('scroll', () => {
-      if (!scrollRaf) scrollRaf = requestAnimationFrame(updateActiveOnScroll);
-    }, { passive: true });
-    updateActiveOnScroll();
+    });
+
+    window.addEventListener('hashchange', () => {
+      const hid = location.hash.replace(/^#/, '');
+      if (pageIds.has(hid)) switchPage(hid, false);
+    });
   }
 
   /* ---------- Wire Events ---------- */
@@ -2768,13 +2954,11 @@ body.drawer-open #drawerBackdrop{opacity:1;pointer-events:auto}
     renderTrajectoryChart();
     renderRepsAndBenchmark();
     bindEvents();
+    const initialHash = location.hash ? location.hash.replace(/^#/, '') : 'overview';
+    switchPage(pageIds.has(initialHash) ? initialHash : 'overview', false);
   }
 
-    init();
-    if (location.hash) {
-      const t = document.querySelector(location.hash);
-      if (t) t.scrollIntoView({ behavior: 'auto' });
-    }
+  init();
 })();
 </script>
 </body>

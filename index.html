@@ -207,11 +207,7 @@ nav.cockpit-nav .wrap{
 }
 .scenario-pill select option{background:#0B1924;color:#E9F3F5}
 
-.navlinks{display:flex;gap:16px;color:var(--muted);font-size:12px;margin-left:auto;overflow-x:auto}
-.navlinks a{padding:6px 2px;border-bottom:2px solid transparent;white-space:nowrap;transition:.16s}
-.navlinks a:hover,.navlinks a.active{color:var(--teal2);border-color:var(--teal2)}
-
-.nav-actions{display:flex;align-items:center;gap:8px;flex:none}
+.nav-actions{display:flex;align-items:center;gap:8px;flex:none;margin-left:auto}
 .nav-btn{padding:6px 10px;font-size:11.5px;border-radius:8px}
 .theme-icon-btn{
   width:36px;height:36px;padding:0;border-radius:10px;
@@ -226,6 +222,114 @@ nav.cockpit-nav .wrap{
 body.light-theme .theme-icon-btn .icon-sun{display:none}
 body.light-theme .theme-icon-btn .icon-moon{display:block}
 body.light-theme nav.cockpit-nav{background:#F7F9F8;backdrop-filter:none;border-bottom-color:rgba(15,118,110,.15)}
+
+/* Collapsible Left Dock Navigation */
+.left-dock{
+  position:fixed;
+  left:12px;
+  top:50%;
+  transform:translateY(-50%);
+  z-index:65;
+  width:56px;
+  padding:10px 8px;
+  display:flex;
+  flex-direction:column;
+  gap:5px;
+  background:rgba(8,19,29,.86);
+  backdrop-filter:blur(18px);
+  border:1px solid var(--line);
+  border-radius:16px;
+  box-shadow:0 18px 46px rgba(2,6,12,.58);
+  transition:width .24s cubic-bezier(.22,1,.36,1),padding .24s ease,box-shadow .24s ease,border-color .24s ease;
+  overflow:hidden;
+}
+.left-dock:hover,.left-dock:focus-within,.left-dock.expanded{
+  width:218px;
+  padding:10px;
+  border-color:rgba(45,212,191,.36);
+  box-shadow:0 22px 54px rgba(2,6,12,.72);
+}
+.dock-item{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  height:42px;
+  padding:0 9px;
+  border-radius:11px;
+  color:var(--muted);
+  position:relative;
+  overflow:hidden;
+  white-space:nowrap;
+  transition:background .16s ease,color .16s ease;
+}
+.dock-item::before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:9px;
+  bottom:9px;
+  width:3px;
+  border-radius:0 4px 4px 0;
+  background:var(--teal2);
+  opacity:0;
+  transition:opacity .16s ease;
+}
+.dock-item:hover{
+  background:rgba(20,184,166,.10);
+  color:var(--ink);
+}
+.dock-item.active{
+  background:rgba(20,184,166,.15);
+  color:var(--teal2);
+}
+.dock-item.active::before{opacity:1}
+.dock-icon{
+  width:22px;
+  height:22px;
+  flex:none;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+}
+.dock-icon svg{
+  width:20px;
+  height:20px;
+  stroke:currentColor;
+  fill:none;
+  stroke-width:1.85;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+.dock-text{
+  opacity:0;
+  transform:translateX(-6px);
+  transition:opacity .18s ease,transform .18s ease;
+  pointer-events:none;
+  display:flex;
+  flex-direction:column;
+  line-height:1.2;
+  min-width:0;
+}
+.dock-text b{font-size:12.5px;font-weight:650;color:var(--ink)}
+.dock-item.active .dock-text b{color:var(--teal2)}
+.dock-text small{font-size:10px;color:var(--faint);font-family:var(--mono)}
+.left-dock:hover .dock-text,.left-dock:focus-within .dock-text,.left-dock.expanded .dock-text{
+  opacity:1;
+  transform:translateX(0);
+}
+body.light-theme .left-dock{
+  background:rgba(255,255,255,.94);
+  border-color:rgba(13,148,136,.26);
+  box-shadow:0 14px 36px rgba(15,34,32,.11);
+}
+body.light-theme .left-dock:hover,body.light-theme .left-dock:focus-within,body.light-theme .left-dock.expanded{
+  border-color:rgba(13,148,136,.46);
+  box-shadow:0 18px 44px rgba(15,34,32,.16);
+}
+body.light-theme .dock-item:hover{background:rgba(13,148,136,.08);color:#0F2220}
+body.light-theme .dock-item.active{background:rgba(13,148,136,.12);color:#0F766E}
+body.light-theme .dock-item.active .dock-text b{color:#0F766E}
+body.light-theme .dock-item::before{background:#0D9488}
 body.light-theme .scenario-pill{background:#FFFFFF;border-color:rgba(13,148,136,.28)}
 body.light-theme .scenario-pill select option,body.light-theme .select-dark option,body.light-theme .select option{background:#FFFFFF;color:#0F2220}
 body.light-theme .btn{background:#FFFFFF;border-color:rgba(15,34,32,.14);color:#0F2220}
@@ -842,13 +946,25 @@ body.drawer-open #drawerBackdrop{opacity:1;pointer-events:auto}
   .run-insight{grid-column:1/-1;position:static;display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
   .search-results{grid-template-columns:1fr 1fr}
 }
+@media(min-width:861px){
+  body{padding-left:72px}
+}
 @media(max-width:860px){
   .wrap{padding:0 14px}
   nav.cockpit-nav .wrap{flex-wrap:wrap;padding-top:8px;padding-bottom:8px;gap:8px}
-  .navlinks{display:none}
   .scenario-pill{max-width:100%;width:100%;order:3}
   .scenario-pill select{max-width:100%;width:100%}
   .nav-actions{margin-left:auto}
+  .left-dock{
+    top:auto;bottom:10px;left:50%;transform:translateX(-50%);
+    width:auto!important;max-width:calc(100vw - 24px);
+    flex-direction:row;padding:6px 8px!important;gap:4px;border-radius:14px;
+    overflow-x:auto;
+  }
+  .left-dock .dock-item{width:38px;height:38px;padding:0;justify-content:center;flex:none}
+  .left-dock .dock-item::before{display:none}
+  .left-dock .dock-text{display:none!important}
+  body{padding-bottom:68px}
   .active-instance-bar{width:100%}
   .cockpit-grid{grid-template-columns:1fr}
   .loop-ribbon,.scenario-grid,.sp-steps,.sm-nodes,.impact-kpis,.boundary-grid{grid-template-columns:1fr 1fr}
@@ -880,7 +996,7 @@ body.drawer-open #drawerBackdrop{opacity:1;pointer-events:auto}
 </head>
 <body>
 
-<!-- Sticky Top Cockpit Header with Always-Available Scenario Switcher -->
+<!-- Sticky Top Cockpit Header: Brand + Scenario Switcher on Left, Theme Toggle Only on Right -->
 <nav class="cockpit-nav">
   <div class="wrap">
     <a class="brand" href="#overview">
@@ -893,16 +1009,6 @@ body.drawer-open #drawerBackdrop{opacity:1;pointer-events:auto}
       <select id="globalScenarioSelect" aria-label="全局场景切换"></select>
     </div>
 
-    <div class="navlinks">
-      <a href="#overview">平台总览</a>
-      <a href="#scenarios">场景中心</a>
-      <a href="#agent-core">决策中枢</a>
-      <a href="#memory-graph">记忆图谱</a>
-      <a href="#electrochem-bench">电化学工作台</a>
-      <a href="#replay">实验回放</a>
-      <a href="#quantified">效果量化</a>
-    </div>
-
     <div class="nav-actions">
       <button class="theme-icon-btn" id="themeToggleBtn" type="button" title="切换至科研日间模式" aria-label="切换日间或夜间模式">
         <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
@@ -911,6 +1017,52 @@ body.drawer-open #drawerBackdrop{opacity:1;pointer-events:auto}
     </div>
   </div>
 </nav>
+
+<!-- Left Collapsible Dock Toolbar (expands when pointer moves to left edge, collapses to content icons in center) -->
+<aside class="left-dock" id="leftDock" aria-label="功能导航工具栏">
+  <a class="dock-item active" href="#overview" data-sec="overview" title="平台总览">
+    <span class="dock-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="8" height="8" rx="2"/><rect x="13" y="3" width="8" height="5" rx="1.5"/><rect x="13" y="10" width="8" height="11" rx="2"/><rect x="3" y="13" width="8" height="8" rx="2"/></svg>
+    </span>
+    <span class="dock-text"><b>平台总览</b><small>01 · 总览控制台</small></span>
+  </a>
+  <a class="dock-item" href="#scenarios" data-sec="scenarios" title="场景中心">
+    <span class="dock-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="2.5"/><path d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M18.4 5.6l-2.8 2.8M8.4 15.6l-2.8 2.8"/></svg>
+    </span>
+    <span class="dock-text"><b>场景中心</b><small>02 · 12+ 科研场景</small></span>
+  </a>
+  <a class="dock-item" href="#agent-core" data-sec="agent-core" title="决策中枢">
+    <span class="dock-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2.5"/><path d="M9 1v3M15 1v3M9 20v3M15 20v3M1 9h3M1 15h3M20 9h3M20 15h3"/><circle cx="12" cy="12" r="2.2"/></svg>
+    </span>
+    <span class="dock-text"><b>决策中枢</b><small>03 · 状态机与规则</small></span>
+  </a>
+  <a class="dock-item" href="#memory-graph" data-sec="memory-graph" title="记忆图谱">
+    <span class="dock-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><circle cx="6" cy="7" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="18" cy="18" r="2.5"/><circle cx="7" cy="18" r="2.5"/><circle cx="12" cy="12" r="2"/><path d="M8.2 8.2l2.4 2.4M15.8 7.5l-2.4 3M13.4 13.4l3 3M8.8 16.4l1.8-2.8M8.5 7h7"/></svg>
+    </span>
+    <span class="dock-text"><b>记忆图谱</b><small>04 · 动态生长图谱</small></span>
+  </a>
+  <a class="dock-item" href="#electrochem-bench" data-sec="electrochem-bench" title="电化学工作台">
+    <span class="dock-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><path d="M6 4h12v14a3 3 0 0 1-3 3H9a3 3 0 0 1-3-3V4z"/><path d="M4 4h16M10 2v7M14 2v7"/><path d="M6.5 14.5c2-2 3.5-2 5.5 0s3.5 2 5.5 0"/></svg>
+    </span>
+    <span class="dock-text"><b>电化学工作台</b><small>05 · 装置与极化曲线</small></span>
+  </a>
+  <a class="dock-item" href="#replay" data-sec="replay" title="实验回放">
+    <span class="dock-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/><polygon points="10 9 16 12 10 15"/></svg>
+    </span>
+    <span class="dock-text"><b>实验回放</b><small>06 · 20 轮闭环回放</small></span>
+  </a>
+  <a class="dock-item" href="#quantified" data-sec="quantified" title="效果量化">
+    <span class="dock-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><path d="M3 20h18"/><rect x="5" y="12" width="3" height="8" rx="0.8"/><rect x="10.5" y="8" width="3" height="12" rx="0.8"/><rect x="16" y="4" width="3" height="16" rx="0.8"/><path d="M4 9l5.5-4.5L13 7l6-4.5"/></svg>
+    </span>
+    <span class="dock-text"><b>效果量化</b><small>07 · 排名与收敛战报</small></span>
+  </a>
+</aside>
 
 <main>
 <!-- 01. 平台总览（科研决策控制台） -->
@@ -2427,8 +2579,68 @@ body.drawer-open #drawerBackdrop{opacity:1;pointer-events:auto}
     renderTrajectoryChart();
   }
 
+  function initLeftDock() {
+    const dock = $('#leftDock');
+    if (!dock) return;
+    const items = $$('#leftDock .dock-item');
+    const secIds = items.map(el => el.dataset.sec);
+
+    function setDockExpanded(expand) {
+      if (window.innerWidth <= 860) {
+        dock.classList.remove('expanded');
+        return;
+      }
+      dock.classList.toggle('expanded', expand);
+    }
+
+    function setActiveSec(id) {
+      items.forEach(item => item.classList.toggle('active', item.dataset.sec === id));
+    }
+
+    dock.addEventListener('mouseenter', () => setDockExpanded(true));
+    dock.addEventListener('mouseleave', e => {
+      if (e.clientX > 236) setDockExpanded(false);
+    });
+    window.addEventListener('mousemove', e => {
+      if (window.innerWidth <= 860) return;
+      const inDock = e.target instanceof Node && dock.contains(e.target);
+      if (e.clientX <= 76 || inDock) {
+        setDockExpanded(true);
+      } else if (e.clientX > 236) {
+        setDockExpanded(false);
+      }
+    }, { passive: true });
+    document.addEventListener('mouseleave', () => setDockExpanded(false));
+
+    items.forEach(item => {
+      item.addEventListener('click', () => setActiveSec(item.dataset.sec));
+    });
+
+    let scrollRaf = 0;
+    function updateActiveOnScroll() {
+      scrollRaf = 0;
+      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 40) {
+        setActiveSec(secIds[secIds.length - 1]);
+        return;
+      }
+      let current = secIds[0];
+      for (const id of secIds) {
+        const sec = document.getElementById(id);
+        if (sec && sec.getBoundingClientRect().top <= 180) {
+          current = id;
+        }
+      }
+      setActiveSec(current);
+    }
+    window.addEventListener('scroll', () => {
+      if (!scrollRaf) scrollRaf = requestAnimationFrame(updateActiveOnScroll);
+    }, { passive: true });
+    updateActiveOnScroll();
+  }
+
   /* ---------- Wire Events ---------- */
   function bindEvents() {
+    initLeftDock();
     $('#themeToggleBtn').addEventListener('click', () => {
       const nextLight = !document.body.classList.contains('light-theme');
       applyTheme(nextLight);

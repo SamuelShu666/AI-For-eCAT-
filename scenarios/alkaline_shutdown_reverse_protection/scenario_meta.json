@@ -1,0 +1,42 @@
+{
+  "id": "alkaline_shutdown_reverse_protection",
+  "index": "03",
+  "category": "equipment",
+  "category_label": "装备运行",
+  "title": "大型碱性电解槽启停反极保护调度",
+  "subtitle": "在可再生功率波动下协调负荷、待机、吹扫与停机保护",
+  "status": "preview_ready",
+  "status_label": "文献与公开数据资料预览",
+  "target_metric": "每次停机累计反向电荷 Q_rev / 安全产氢量",
+  "target_direction": "反向电荷与安全超限越低越好，氢气产量与可再生能源利用率越高越好",
+  "knowledge_base": "20篇候选来源 · 3类公开运行数据 · 8条候选约束",
+  "data_level": "preview",
+  "candidate_pool_status": "no_open_event_level_reverse_current_labels_found",
+  "run_count": 0,
+  "dynamic_memory_graph": false,
+  "subgraphs": [
+    "启停与安全运行文献子图",
+    "电解槽运行状态与遥测事实子图",
+    "Agent调度决策轨迹子图"
+  ],
+  "workflow_preview": [
+    {
+      "step": "状态与风险感知",
+      "detail": "读取功率、负荷、温度、压力、碱液循环和H₂/O₂纯度"
+    },
+    {
+      "step": "文献与边界检索",
+      "detail": "召回气体交叉、冷/热启动、阴极电位变化和停机反向电流证据"
+    },
+    {
+      "step": "安全约束下调度",
+      "detail": "在设备额定负荷、HTO联锁、爬坡率和启停时间边界内推荐运行状态"
+    },
+    {
+      "step": "遥测回读与记忆写回",
+      "detail": "记录实际PLC动作、反向电荷、气体纯度和退化反馈；当前等待现场数据接入"
+    }
+  ],
+  "last_updated": "2026-11-19",
+  "data_status": "已整理文献与公开运行数据入口；未发现带工业堆栈启停反向电荷标签的可公开事件级候选池；尚无本场景Agent日志、Neo4j运行图谱或实测对照结果"
+}

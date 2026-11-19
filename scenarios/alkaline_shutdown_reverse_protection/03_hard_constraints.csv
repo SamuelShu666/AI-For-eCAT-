@@ -1,0 +1,9 @@
+rule_id,category,metric,threshold,unit,decision_use,source_id,printed_page_locator,scope_and_limit
+R01,gas_safety,HTO_H2_in_O2_alarm,1.6,vol%,预警并禁止继续向更低负荷调度；触发设备联锁前的控制预警参考,P08,pp.34775–34776 §2,"工业系统典型报警值；具体报警/联锁设定以设备SIS/OEM为准"
+R02,gas_safety,HTO_H2_in_O2_trip,2.0,vol%,达到阈值请求安全停机,P08,pp.34775–34776 §2; P01 p.12 §5,"来源为标准/文献综述阈值；需核对本项目适用的现行标准版本和气体干湿基准"
+R03,load,normalized_load,15–100,% rated,仿真调度初始负荷边界；下限需由在线HTO与OEM最小负荷覆盖,P07,printed p.3 Table 1 and load-range paragraph,"Varela模型取15%最小负荷；10%属于新技术/特定机型，不设成普适红线"
+R04,power_ramp,abs(dP/dt),≤20,% rated per second,调度模型初始爬坡限制；现场设置必须替换成额定设备实测值,P07,printed p.3 ramp-rate paragraph,"文中为传统可接受建模值；文章明确功率电子、气体流动和设备规格会改变响应"
+R05,gas_crossover,pressure_for_10pct_min_load,<8,bar absolute,只在采用该先进零间隙模型时，作为10%最小负荷目标的压力前提,P08,printed p.34773 abstract; discussion pp.34779–34780,"特定模型建议值，不是大型电解槽通用压力上限；总压/表压必须区分"
+R06,thermal,electrolyte_temperature,50–80,°C,常见高效运行参考窗；高于80°C需经设备设计与热风险校核,P01,p.19 §9.2; also p.4 §3,"对应20–30 wt% KOH的综述操作窗；不得覆盖OEM温度上限"
+R07,cathode_protection,Ni_cathode_potential_vs_RHE,<0.6,V vs RHE,对Ni基阴极瞬态保护研究的材料电位门限；超限标记氧化/失活风险,P15,Figure 3 and mechanism/conclusion,pp.2491–2500,"电化学研究阈值；在线工业堆栈未必有每片RHE参比测量，不能直接写成PLC保护值"
+R08,startup_transition,cold_start_time,30–60,min,空闲/冷态重启的规划占用时间；待机恢复约20 min应单独建模,P07,printed p.3 startup/shutdown paragraph,"文献报告的是机组范围；实际调度使用现场冷启动/热待机计时标定"

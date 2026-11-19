@@ -1,0 +1,19 @@
+﻿evidence_id,paper_id,pdf_page,section,claim,quote,evidence_role,scope,ui_use
+F01,F01,1.0,Abstract,平台以温度、停留时间、压力和酸浓度为闭环优化变量。,"iteratively refine key reaction parameters including temperature, residence time, pressure, and acid concentration",workflow,连续流重氮合成,决策变量说明
+F02,F01,1.0,Abstract,实时温度与压力监控用于阻止实验越过预设安全边界。,Real-time monitoring of temperature and pressure prevents excursions beyond predefined and potentially unsafe operating limits.,safety,连续流设备,安全约束
+F03,F01,1.0,Abstract,DAN优化把最优停留时间从62 s降至21 s，同时目标指标提升27.3%。,autonomous optimization reduced the optimal residence time from 62 to 21 s while improving the objective metric by 27.3%.,result,DAN,主动学习收益
+F04,F01,1.0,Abstract,TFDM对酸浓度呈狭窄最优窗口，酸既促进重氮化也促进分解。,"variation of acid concentration revealed a narrow optimal window, highlighting the competing roles of acid-promoted diazotization and diazo decomposition.",mechanism,TFDM,酸浓度约束
+F05,F01,1.0,Abstract,EDA多目标优化揭示收率与过程通量之间的Pareto权衡。,Multi-objective optimization of EDA demonstrated the trade-off between reaction yield and process throughput through identification of Pareto-optimal operating conditions.,multiobjective,EDA,双目标Pareto
+F06,F01,8.0,EDA single-objective optimization,EDA单目标实验采用10个LHS初始点和20个优化实验，收率最高约84%。,started with 10 LHS experiments followed by 20 optimization experiments ... delivering yields up to approximately 84%.,experiment_design,EDA单目标,运行预算说明
+F07,F01,9.0,EDA multi-objective optimization,EDA多目标实验共20次，其中10次初始化、10次优化，用于识别收率—通量Pareto前沿。,"A total of 20 experiments (10 initialization, and 10 optimization) were run sequentially",experiment_design,EDA多目标,运行回放
+F08,F01,10.0,Data availability,论文说明实验与优化数据可在补充资料和对应作者处获得。,"The datasets generated during the current study, including experimental results and optimization data, are available in the supplementary information (SI).",provenance,数据来源,来源说明
+F09,F02,12.0,Reaction optimization,在线NMR与停留时间、温度等参数拟合可将实时监测用于认识反应和优化。,"Fitting these data, i.e., temperature, temperature gradients, starting concentration and residence times, against a reaction conversion model enables ...",monitoring,连续流在线分析,反馈数据来源
+F10,F02,1.0,Abstract,在线NMR可服务于连续流的动力学、热力学和反应优化。,the determination of the kinetic and thermodynamic parameters and reaction optimization,monitoring,连续流在线分析,闭环设计依据
+F11,F03,3.0,Control strategies,没有实时反馈的控制结构不足以支撑自适应优化。,The control structure is not present in such cases as it does not have a real-time feedback system.,control,多步连续流,闭环必要性
+F12,F04,7.0,Bayesian optimization,闭环贝叶斯优化框架已用于同时优化连续变量和分类变量的反应条件。,A closed-loop Bayesian optimization (BO) framework was integrated to optimize reactions involving both continuous and categorical variables,algorithm,反应优化,方法依据
+F13,F05,1.0,Abstract,闭环自主实验能够在不需人工逐轮干预的情况下加速探索大型反应空间。,"Closed-loop, autonomous experimentation enables accelerated and material-efficient exploration of large reaction spaces without the need for user intervention.",autonomy,多步化学,平台能力说明
+F14,F06,1.0,Abstract,强化学习代理可用于预测材料合成参数，减少试错。,Strategies for synthesis of promising materials are currently identified by time-consuming trial and error ... We use offline reinforcement learning (RL) to predict,prior_learning,工艺参数,先验建模
+F15,F07,2.0,Experimental,液滴反应器的流速等参数可在连续流中精确控制。,two aqueous solutions were injected at a flow rate of 10 µL/min,parameter_control,连续流设备,工况字段
+F16,F08,3.0,Case study,连续流案例获得88%收率和90:10的顺反选择性，而批次条件为60%和70:30。,"88% yield (cis:trans = 90:10) ... decreased yield and cis/trans selectivity ... (60%, cis:trans = 70:30) ... under the batch conditions",flow_advantage,代表性连续流反应,工艺优势说明
+F17,D01,nan,Dataset filtering,候选池只纳入仓库中simulation_mode=off且Yield存在的真实EDA运行记录，共93条、6个运行目录。,Filtered Streamlit_VOL run directories; simulation_mode = off; 93 records with measured Yield.,scenario_filter,候选池构建,数据口径页
+F18,D01,nan,Metric definition,通量按作者代码定义为产物质量除以时间，单位mg min^-1；仅在多目标运行中可用。,Throughput is defined as the amount of product per time. Units: mg of product per minute.,metric_boundary,候选排序,通量单位与缺失处理

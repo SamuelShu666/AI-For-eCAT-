@@ -1,0 +1,9 @@
+﻿rule_id,source_type,rule_type,rule_text,threshold,applies_to,evidence_chunk,status
+FLOW-R01,scenario_scope,数据范围,仅纳入作者仓库中simulation_mode=off且Yield非空的真实EDA运行记录。,measured only,candidate_space,F17,强制规则
+FLOW-R02,literature,主指标,收率以百分比表示，越高越好。,maximize %,primary_metric,F05,已确认
+FLOW-R03,scenario_scope,缺失值,通量只在多目标记录中可用；缺失值不插补，不视为低通量。,no imputation,pareto,F18,强制规则
+FLOW-R04,literature,安全边界,温度和压力实时监控，任何候选不得越过设备预设安全上下限。,T/P safety envelope,experiment_guard,F02,必须显示
+FLOW-R05,literature,机制边界,酸浓度对重氮化与分解存在竞争，不能简单外推为越高越好。,narrow optimum,variable_prior,F04,必须显示
+FLOW-R06,literature,多目标,高收率与高通量存在Pareto权衡，不能只按单一指标选工艺。,multi-objective,representative_selection,"F05,F07",必须显示
+FLOW-R07,scenario_scope,指标解释,收率和通量不包含纯度、杂质、安全暴露或全生命周期成本。,scope guard,summary,F18,强制规则
+FLOW-R08,scenario_scope,数据来源,当前93条记录为公开实测数据，尚未运行eCAT Agent。,preview only,status,F17,强制规则

@@ -1,0 +1,7 @@
+﻿run_id,run_name,simulation_mode,records,variables,objectives
+real_eda_01,Real Run EDA 1,off,16,temperature | residence_time | pressure,Yield
+real_eda_02,Real EDA Run2,off,13,temperature | residence_time | pressure,Yield
+real_eda_03,Real EDA Run3,off,20,temperature | residence_time | pressure,Yield
+moo_eda_01,MOO EDA Real Test1,off,20,temperature | residence_time | pressure,Yield | Throughput
+moo_eda_02,MOO EDA Real Test2,off,9,temperature | residence_time | pressure,Yield | Throughput
+moo_eda_03,MOO EDA Real Test3,off,15,temperature | residence_time | pressure,Yield | Throughput

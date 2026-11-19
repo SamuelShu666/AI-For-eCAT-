@@ -1,0 +1,35 @@
+[
+  {
+    "candidate_a": "FLOW0003",
+    "label_a": "T=69.2°C, τ=66.7s, P=3.72bar",
+    "yield_a": 96.7091759,
+    "candidate_b": "FLOW0093",
+    "label_b": "T=69.2°C, τ=66.7s, P=3.72bar",
+    "yield_b": 64.8362736,
+    "delta": 31.872902300000007,
+    "parameter_distance": 0.0,
+    "note": "相邻工艺窗口内的收率差异，反映温度、停留时间和压力之间的非线性耦合。"
+  },
+  {
+    "candidate_a": "FLOW0005",
+    "label_a": "T=45.7°C, τ=53.4s, P=2.29bar",
+    "yield_a": 95.05787693333332,
+    "candidate_b": "FLOW0087",
+    "label_b": "T=45.7°C, τ=53.4s, P=2.29bar",
+    "yield_b": 71.86176376666667,
+    "delta": 23.19611316666665,
+    "parameter_distance": 0.0,
+    "note": "相邻工艺窗口内的收率差异，反映温度、停留时间和压力之间的非线性耦合。"
+  },
+  {
+    "candidate_a": "FLOW0008",
+    "label_a": "T=67.2°C, τ=20.1s, P=3.98bar",
+    "yield_a": 93.77107223333331,
+    "candidate_b": "FLOW0085",
+    "label_b": "T=67.2°C, τ=20.1s, P=3.98bar",
+    "yield_b": 72.15281923333333,
+    "delta": 21.61825299999998,
+    "parameter_distance": 0.0,
+    "note": "相邻工艺窗口内的收率差异，反映温度、停留时间和压力之间的非线性耦合。"
+  }
+]

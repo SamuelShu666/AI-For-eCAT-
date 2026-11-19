@@ -1,0 +1,52 @@
+{
+  "id": "flow_diazo",
+  "index": "05",
+  "category": "process",
+  "category_label": "工艺优化",
+  "title": "连续流重氮中间体合成工艺优化",
+  "subtitle": "93条真实EDA实验 · 收率与通量双目标",
+  "status": "preview_ready",
+  "status_label": "真实实验数据预览可用",
+  "target_metric": "Yield / Throughput",
+  "target_direction": "收率与通量均越高越好",
+  "rig_name": "多泵连续流 · T型混合器 · 膜分离 · FT-IR在线分析",
+  "knowledge_base": "93条真实实验 · 6组实测运行 · 8篇核心全文",
+  "budget": "93条公开实测候选 · 20轮演示预算",
+  "best_outcome": "最高收率97.25%；最高通量214.8 mg min⁻¹",
+  "gain_highlight": "6 Pareto",
+  "subgraphs": [
+    "工艺参数子图",
+    "收率—通量子图",
+    "在线分析—安全机理子图"
+  ],
+  "workflow_preview": [
+    {
+      "step": "实验记录整理",
+      "detail": "只保留真实EDA运行和收率数据"
+    },
+    {
+      "step": "多目标候选设计",
+      "detail": "平衡收率与单位时间通量"
+    },
+    {
+      "step": "安全与规则校验",
+      "detail": "约束温度、压力、酸浓度和缺失值"
+    },
+    {
+      "step": "结果写回",
+      "detail": "回填FT-IR、收率、通量和Pareto状态"
+    }
+  ],
+  "data_level": "preview",
+  "bundle_id": "flow_diazo",
+  "dataset_rows": 93,
+  "source_record_count": 93,
+  "source_run_count": 6,
+  "source_paper_count": 8,
+  "paper_count": 8,
+  "evidence_count": 18,
+  "run_count": 0,
+  "source_owner": "eCAT团队",
+  "last_updated": "2026-11-19",
+  "data_status": "93条真实连续流实验已接入；尚无本项目Agent运行日志"
+}

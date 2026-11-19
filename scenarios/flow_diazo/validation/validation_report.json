@@ -1,0 +1,20 @@
+{
+  "scenario_id": "flow_diazo",
+  "generated_at": "2026-11-19",
+  "status": "passed",
+  "checks": {
+    "candidate_count": 93,
+    "source_run_count": 6,
+    "yield_available": 93,
+    "throughput_available": 44,
+    "top_k": 10,
+    "top_threshold_pct": 93.44091813333334,
+    "pareto_count": 6,
+    "evidence_rows": 18,
+    "constraint_rows": 8,
+    "prior_rows": 15,
+    "core_pdf_count": 8
+  },
+  "bad_evidence_pages": [],
+  "boundary": "公开实测数据预览；未运行eCAT Agent。"
+}

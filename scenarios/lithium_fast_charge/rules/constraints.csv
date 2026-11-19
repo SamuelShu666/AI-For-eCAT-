@@ -1,0 +1,9 @@
+﻿rule_id,source_type,rule_type,rule_text,threshold,applies_to,evidence_chunk,paper_id,page,status,note
+FC-R01,dataset_support,搜索空间边界,第一阶段倍率 C1 不得超出公开协议表覆盖范围,1.0–8.0 C,stage1_c_rate,source/observed_protocols.csv,D01,N/A,已核验,由本次 67 个去重协议观察范围计算，禁止无依据外推
+FC-R02,dataset_support,搜索空间边界,第一阶段转第二阶段时的 SOC 不得超出公开协议表覆盖范围,2–80 % SOC,switch_soc_pct,source/observed_protocols.csv,D01,N/A,已核验,只允许在已观察协议支撑域内插值
+FC-R03,dataset_support,搜索空间边界,第二阶段倍率 C2 不得超出公开协议表覆盖范围,3.0–6.0 C,stage2_c_rate,source/observed_protocols.csv,D01,N/A,已核验,页面必须提示这是历史观测支撑域，不等于完整安全域
+FC-R04,dataset_definition,寿命定义,循环寿命按达到额定容量 80% 保留率时的循环数定义,80 % capacity retention,median_cycle_life,P01,P01,待补页码,待核验,接入正式页面前提炼 Severson 2019 Methods 页码
+FC-R05,scenario_policy,评测协议,充电时间采用从测试起点充至 80% SOC 的时长，不将 10–80% 口径混用,time-to-80% SOC / min,charge_time_to_80_min,P01,P01,待补页码,待核验,若后续从原始时序重新计算 10–80%，必须建立独立字段
+FC-R06,statistical_policy,证据强度,n_cells=1 的协议必须标为单电芯证据，不得与多电芯稳健结果等价展示,n_cells ≥ 2 才标为重复电芯证据,candidate_evidence_level,source/observed_protocols.csv,D01,N/A,已核验,避免把批次差异误写成确定性因果
+FC-R07,verification_boundary,安全声明,没有三电极负极电位或拆解/析锂检测证据时，不得宣称协议绝对无析锂,证据存在性,safety_claim,P02,P02,待补页码,待核验,页面只能表述为历史循环数据下的寿命预测或风险代理
+FC-R08,verification_boundary,跨体系边界,电芯化学、容量、夹具、温度窗口或倍率区间发生改变时必须重新校准,同型号、同容量、同热边界,deployment,P01,P01,待补页码,待核验,当前候选池仅代表公开 LFP/graphite 电芯体系

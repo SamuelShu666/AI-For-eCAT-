@@ -1,0 +1,50 @@
+{
+  "id": "lithium_fast_charge",
+  "index": "11",
+  "category": "process",
+  "category_label": "工艺优化",
+  "title": "动力电池快充协议寻优",
+  "subtitle": "两阶段充电协议的速度—寿命多目标决策",
+  "status": "preview_ready",
+  "status_label": "真实数据预览可用",
+  "target_metric": "中位循环寿命 / 充电时长",
+  "target_direction": "寿命越高越好，充电时长越低越好",
+  "rig_name": "LFP/graphite 电芯循环测试台 + 温控与安全联锁",
+  "knowledge_base": "2 篇核心论文 · 67 个去重协议 · 123 个电芯观测",
+  "budget": "67 个历史协议 · 20 轮演示预算",
+  "best_outcome": "公开数据最高中位寿命 2160.0 cycles；最快协议 8.89 min；9 个速度—寿命 Pareto 协议",
+  "gain_highlight": "多目标",
+  "subgraphs": [
+    "快充协议文献子图",
+    "协议—寿命实验子图",
+    "决策轨迹子图"
+  ],
+  "workflow_preview": [
+    {
+      "step": "文献与机理检索",
+      "detail": "召回快充协议、析锂风险、容量衰减和寿命预测证据"
+    },
+    {
+      "step": "协议候选生成",
+      "detail": "在 C1、切换 SOC、C2 的可观测支撑域内生成候选"
+    },
+    {
+      "step": "约束与不确定性校验",
+      "detail": "限制越界外推，并区分单电芯与重复电芯证据"
+    },
+    {
+      "step": "寿命回读与记忆写回",
+      "detail": "回读中位循环寿命，记录速度—寿命权衡与相似协议悬崖"
+    }
+  ],
+  "data_level": "preview",
+  "bundle_id": "lithium_fast_charge",
+  "dataset_rows": 67,
+  "source_cell_count": 123,
+  "paper_count": 12,
+  "evidence_count": 38,
+  "run_count": 0,
+  "source_owner": "待填写",
+  "last_updated": "2026-11-19",
+  "data_status": "候选池、核心数据口径与12篇开放文献证据已接入；尚无该场景的Agent运行日志与图谱"
+}

@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "updated_at": "2026-11-19",
+  "scenarios": [
+    {
+      "id": "lithium_fast_charge",
+      "index": "11",
+      "title": "动力电池快充协议寻优",
+      "category": "process",
+      "status": "preview_ready",
+      "data_level": "preview",
+      "path": "scenarios/lithium_fast_charge",
+      "bundle": "scenarios/lithium_fast_charge/bundle/fastcharge_bundle_with_evidence.js",
+      "candidate_count": 67,
+      "source_cell_count": 123,
+      "paper_count": 12,
+      "evidence_count": 38
+    }
+  ]
+}

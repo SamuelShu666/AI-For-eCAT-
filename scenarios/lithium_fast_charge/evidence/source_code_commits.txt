@@ -1,0 +1,5 @@
+rdbraatz/data-driven-prediction-of-battery-cycle-life-before-capacity-degradation
+commit: 1ef13d27c66dc3d73affdaa008fbeba5687b2ea4
+
+TheDeveloperAAA/battery-fastcharging-ml
+commit: 5394de0fc2f2db4e7d5010b96d5e9874e389527d

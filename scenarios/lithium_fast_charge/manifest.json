@@ -1,0 +1,80 @@
+{
+  "scenario_id": "lithium_fast_charge",
+  "generated_at": "2026-11-19",
+  "public_upload": true,
+  "source_pdf_policy": "not committed",
+  "files": {
+    "bundle\\fastcharge_bundle_with_evidence.js": {
+      "bytes": 118805,
+      "sha256": "344cb8341a373983e3d58401e13677612fde8f657753c718ba96cf630e201b7d"
+    },
+    "data\\candidate_pool.csv": {
+      "bytes": 5953,
+      "sha256": "68092e94f2b56a2accaac34de197da103730d1b88c31471cd5b39cee5952c9fe"
+    },
+    "data\\conditions.csv": {
+      "bytes": 717,
+      "sha256": "4e1a181cc0d975891a003faea1a9b68e7981f02a6b43a774232baa8019aa583e"
+    },
+    "equipment\\equipment_and_visuals.md": {
+      "bytes": 1889,
+      "sha256": "7c71629d3ebbe0f8eb003b820ada906a0dbe29fb76b2c1c27f36b6c3351eaf7f"
+    },
+    "evidence\\data_scope.md": {
+      "bytes": 1961,
+      "sha256": "3541a3c4637d89b13cfdf2f1b8acdd27c7d65aa5a08b9b82aa95357a9bd6a2aa"
+    },
+    "evidence\\evidence.csv": {
+      "bytes": 19932,
+      "sha256": "2a9a3b2cdab8a6d8eb26b887f6c8d995c0de379da0243a007623705c344c5f56"
+    },
+    "evidence\\literature_notes.md": {
+      "bytes": 2968,
+      "sha256": "e30d63109a57082587055f64960b7ec2206d5a821c63264cc35c8e3c00bf5dd3"
+    },
+    "evidence\\open_questions.md": {
+      "bytes": 863,
+      "sha256": "b78ba3fb22a5cd84e8287a8c0f0a6ebb278fcd2d84f3998eb2614001bcdac6e7"
+    },
+    "evidence\\paper_registry.csv": {
+      "bytes": 6142,
+      "sha256": "3ebe43ab210679ebb44085b533127327c3e5a1c7778ec618ef7d612ea903e2cd"
+    },
+    "evidence\\source_code_commits.txt": {
+      "bytes": 226,
+      "sha256": "1ec2aadbc1ade570443e4c2608462509e292c48d5b99e80d70f5d0852c77338c"
+    },
+    "evidence\\ui_mapping.md": {
+      "bytes": 1663,
+      "sha256": "369e6a13288c0c91eeae0227578de6ff2ff2ea33a141557daa9b1d436598639e"
+    },
+    "figures\\fastcharge_landscape.png": {
+      "bytes": 106286,
+      "sha256": "e36675324e94c04ca60d1d435b0ef287f46743530d7e03a55cccdc64ab9d6c98"
+    },
+    "README.md": {
+      "bytes": 914,
+      "sha256": "2d0f740116d8d8791380ff1135a27f8a6542da5ecb4dad45bded51dae85c3e70"
+    },
+    "rules\\constraints.csv": {
+      "bytes": 2204,
+      "sha256": "aac5d6a0e054c64ecd08f700b6d8f648c10c797db9a624cd2f45a02a1af21b64"
+    },
+    "rules\\priors.csv": {
+      "bytes": 2035,
+      "sha256": "8827f343cc546ab3f196f623a96b9b9eaf21b7225ea488e86cdcf9f77fd4fc89"
+    },
+    "runs\\.gitkeep": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "scenario_meta.json": {
+      "bytes": 1931,
+      "sha256": "1f262c8b52b59461283946f5bcbc314a97210ed14a168220cbff8772d8bfed5d"
+    },
+    "validation\\.gitkeep": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  }
+}

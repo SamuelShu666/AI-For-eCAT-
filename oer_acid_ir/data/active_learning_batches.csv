@@ -1,0 +1,6 @@
+﻿batch,sheet,planned_trials,valid_results,best_eta10_mv,median_eta10_mv,best_sample,best_elements
+1,1st_final,64,34,206.0,241.0,B1_BEST_400_#9_Full,Ru+Sr+Na+Re
+2,2nd_final,64,39,187.0,270.0,B2_400#7,Ru+Sr+Ir+Li
+3,3rd_final,64,52,174.0,220.5,B3_500_VARIANCE_#1_High_Quality(#22),Ru+K+Li+Pr
+4,4th_final,64,64,172.0,245.5,B4_400_BEST_#2_Full,Ru+K+Sr+Nd
+5,5th_final,64,64,154.0,214.0,B5_400_BEST_#1_High_Quality(#23),Ru+Ca+Sr+Nd

@@ -1,0 +1,22 @@
+{
+  "scenario_id": "oer_acid_ir",
+  "generated_at": "2026-11-19",
+  "status": "passed",
+  "checks": {
+    "candidate_count": 114,
+    "unique_source_papers": 50,
+    "pareto_count": 4,
+    "top_k": 12,
+    "top_threshold_mv": 226.0,
+    "best_eta10_mv": 165.0,
+    "minimum_ir_precursor_fraction_pct": 0.017327276,
+    "stability_matched_candidates": 21,
+    "evidence_rows": 16,
+    "constraint_rows": 8,
+    "prior_rows": 15,
+    "evidence_pages_checked": 16,
+    "bad_evidence_pages": [],
+    "pdf_files_internal": 8
+  },
+  "boundary": "公开文献预览场景；未运行eCAT Agent，不包含eCAT实测或Agent性能结果。"
+}

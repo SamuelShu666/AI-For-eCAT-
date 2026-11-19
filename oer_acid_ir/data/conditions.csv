@@ -1,0 +1,9 @@
+﻿name,value,status
+主指标,η10 @ 10 mA cm⁻²，单位 mV，越低越好,数据集已定义
+低铱边界,金属前驱体中 Ir 比例 >0 且 ≤10%,本场景候选池定义
+酸性口径,Electrolyte proton concentration = 0.1 M 或 1.0 M,本场景筛选条件
+数据质量,高影响因子、较高引用速率或近期发表之一,按DASH论文规则
+活性终点,10 mA cm⁻² geometric current density,数据集已定义
+稳定性指标,time-averaged voltage decay rate，log(mV h⁻¹)，越低越好,345条高质量稳定性记录中可匹配者
+可比性边界,文献记录的电解质、负载、扫描速率、基底和电极结构并不完全一致,必须展示
+测试体系,RDE半电池或PEM单电池等多种公开实验体系,来源已知，需按实验条件解读

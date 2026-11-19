@@ -1,0 +1,21 @@
+{
+  "scenario_id": "ssb_garnet",
+  "generated_at": "2026-11-19",
+  "status": "passed",
+  "checks": {
+    "candidate_count": 172,
+    "unique_source_dois": 67,
+    "temperature_min_c": 20.0,
+    "temperature_max_c": 33.0,
+    "top_k": 18,
+    "top_threshold_s_cm": 0.00103,
+    "pareto_count": 2,
+    "density_available": 122,
+    "evidence_rows": 29,
+    "constraint_rows": 8,
+    "prior_rows": 15,
+    "core_pdf_count": 19
+  },
+  "bad_evidence_pages": [],
+  "boundary": "公开文献预览；未运行eCAT Agent。"
+}

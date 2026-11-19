@@ -1,0 +1,51 @@
+{
+  "id": "ssb_garnet",
+  "index": "04",
+  "category": "materials",
+  "category_label": "材料研发",
+  "title": "石榴石固态电解质离子电导率优化",
+  "subtitle": "172条20–35℃文献记录 · 电导与掺杂复杂度双目标",
+  "status": "preview_ready",
+  "status_label": "真实实验数据预览可用",
+  "target_metric": "log10 ionic conductivity",
+  "target_direction": "离子电导越高越好；显式掺杂元素数越低越好",
+  "rig_name": "手套箱 · 压片/烧结 · Li对称电池 · EIS/恒流测试",
+  "knowledge_base": "256条石榴石记录 · 80篇来源论文 · 19篇核心全文",
+  "budget": "172条公开实验候选 · 20轮演示预算",
+  "best_outcome": "最高电导0.00206 S cm⁻¹；2个电导—复杂度Pareto",
+  "gain_highlight": "2 Pareto",
+  "subgraphs": [
+    "石榴石组成子图",
+    "掺杂—电导子图",
+    "晶界与界面机理子图"
+  ],
+  "workflow_preview": [
+    {
+      "step": "文献实验数据提取",
+      "detail": "筛选20–35℃石榴石离子电导记录"
+    },
+    {
+      "step": "多目标候选设计",
+      "detail": "平衡离子电导与显式掺杂复杂度"
+    },
+    {
+      "step": "规则与条件校验",
+      "detail": "检查温度、密度、掺杂和晶界边界"
+    },
+    {
+      "step": "实验反馈写回",
+      "detail": "回填EIS、致密度、相结构与界面测试"
+    }
+  ],
+  "data_level": "preview",
+  "bundle_id": "ssb_garnet",
+  "dataset_rows": 172,
+  "source_record_count": 256,
+  "source_paper_count": 67,
+  "paper_count": 19,
+  "evidence_count": 29,
+  "run_count": 0,
+  "source_owner": "eCAT团队",
+  "last_updated": "2026-11-19",
+  "data_status": "172条室温文献实验已接入；尚无本项目Agent运行日志"
+}

@@ -1,0 +1,74 @@
+[
+  {
+    "candidate_a": "SSB0071",
+    "label_a": "Li6.5La3Zr1.5Ta0.5Ox",
+    "conductivity_a": 0.00085,
+    "density_a": 96.9,
+    "candidate_b": "SSB0067",
+    "label_b": "Li6.5La3Zr1.5Ta0.5Ox",
+    "conductivity_b": 1.4e-08,
+    "density_b": 66.0,
+    "ratio": 60714.28571428571,
+    "note": "相同名义组成下，合成、烧结或微结构差异导致电导变化；不能仅凭组成外推性能。"
+  },
+  {
+    "candidate_a": "SSB0014",
+    "label_a": "Li6.5La3Zr1.75Mo0.25Ox",
+    "conductivity_a": 0.00013,
+    "density_a": 95.2,
+    "candidate_b": "SSB0012",
+    "label_b": "Li6.5La3Zr1.75Mo0.25Ox",
+    "conductivity_b": 1.3e-06,
+    "density_b": 80.5,
+    "ratio": 99.99999999999999,
+    "note": "相同名义组成下，合成、烧结或微结构差异导致电导变化；不能仅凭组成外推性能。"
+  },
+  {
+    "candidate_a": "SSB0084",
+    "label_a": "Li6.8La3Zr1.8Ta0.2Ox",
+    "conductivity_a": 0.000129,
+    "density_a": 88.0,
+    "candidate_b": "SSB0085",
+    "label_b": "Li6.8La3Zr1.8Ta0.2Ox",
+    "conductivity_b": 2.2e-06,
+    "density_b": 74.0,
+    "ratio": 58.636363636363626,
+    "note": "相同名义组成下，合成、烧结或微结构差异导致电导变化；不能仅凭组成外推性能。"
+  },
+  {
+    "candidate_a": "SSB0170",
+    "label_a": "Li7La3Zr2Ox",
+    "conductivity_a": 0.00024,
+    "density_a": 96.7,
+    "candidate_b": "SSB0176",
+    "label_b": "Li7La3Zr2Ox",
+    "conductivity_b": 7.83e-06,
+    "density_b": null,
+    "ratio": 30.651340996168585,
+    "note": "相同名义组成下，合成、烧结或微结构差异导致电导变化；不能仅凭组成外推性能。"
+  },
+  {
+    "candidate_a": "SSB0162",
+    "label_a": "Li6.55Ga0.15La3Zr2Ox",
+    "conductivity_a": 0.00206,
+    "density_a": null,
+    "candidate_b": "SSB0161",
+    "label_b": "Li6.55Ga0.15La3Zr2Ox",
+    "conductivity_b": 8.5e-05,
+    "density_b": 89.6,
+    "ratio": 24.235294117647058,
+    "note": "相同名义组成下，合成、烧结或微结构差异导致电导变化；不能仅凭组成外推性能。"
+  },
+  {
+    "candidate_a": "SSB0143",
+    "label_a": "Li6.1Ga0.3La3Zr2Ox",
+    "conductivity_a": 0.00112,
+    "density_a": 96.3,
+    "candidate_b": "SSB0142",
+    "label_b": "Li6.1Ga0.3La3Zr2Ox",
+    "conductivity_b": 7e-05,
+    "density_b": 94.0,
+    "ratio": 16.0,
+    "note": "相同名义组成下，合成、烧结或微结构差异导致电导变化；不能仅凭组成外推性能。"
+  }
+]

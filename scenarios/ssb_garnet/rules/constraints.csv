@@ -1,0 +1,9 @@
+﻿rule_id,source_type,rule_type,rule_text,threshold,applies_to,evidence_chunk,status
+SSB-R01,scenario_scope,温度边界,本场景候选池只纳入测试温度20–35℃的文献电导率记录。,20–35 °C,candidate_space,S15,本场景定义
+SSB-R02,literature,性能目标,器件级固态电解质通常以约10^-3 S cm^-1作为室温离子电导的参考目标。,≈10^-3 S cm^-1,performance_display,S05,参考目标，不是硬门槛
+SSB-R03,literature,安全边界,体相离子电导不能单独证明无枝晶能力，需同时报告电子电导、晶界、界面和临界电流。,multi-metric,risk_guard,S06,必须显示
+SSB-R04,scenario_scope,缺失值,相对密度缺失时保持缺失，不得推断为高致密度。,no imputation,candidate_detail,S15,强制规则
+SSB-R05,scenario_scope,指标解释,掺杂元素数只表示显式配方复杂度，不等同原料成本或器件制造成本。,complexity proxy,secondary_metric,S16,强制规则
+SSB-R06,literature,微结构,晶界、相纯度和烧结窗口会改变有效电导，名义组成相同也不能直接外推性能。,processing-dependent,comparability_guard,"S09,S12,S13",必须显示
+SSB-R07,literature,多目标,更高相对密度不保证更高离子电导，排序应同时显示致密度和掺杂窗口。,no monotonic assumption,representative_selection,"S08,S11",必须显示
+SSB-R08,scenario_scope,数据来源,当前172条候选全部为公开文献记录，尚未运行eCAT Agent或本项目实测。,preview only,status,S15,强制规则

@@ -1,0 +1,16 @@
+﻿symbol,type,activity_effect,stability_effect,cost_class,mechanism,tags,evidence_ids,note
+Li,mobile ion,提升,决定载流子浓度,低,Li位迁移,mobile ion;提升;决定载流子浓度;低;Li位迁移,"S03,S04",标签用于候选解释，不替代统一实验验证。
+La,framework cation,中性,维持石榴石骨架,中,骨架稳定,framework cation;中性;维持石榴石骨架;中;骨架稳定,"S03,S12",标签用于候选解释，不替代统一实验验证。
+Zr,framework cation,中性,形成ZrO6骨架,中,结构稳定,framework cation;中性;形成ZrO6骨架;中;结构稳定,"S03,S12",标签用于候选解释，不替代统一实验验证。
+Al,Li-site dopant,中高,稳定立方相并提高致密化,低,相稳定与烧结,Li-site dopant;中高;稳定立方相并提高致密化;低;相稳定与烧结,S07–S09,标签用于候选解释，不替代统一实验验证。
+Ta,Zr-site dopant,高,调控Li浓度并降低迁移势垒,中高,电荷补偿,Zr-site dopant;高;调控Li浓度并降低迁移势垒;中高;电荷补偿,"S03,S05",标签用于候选解释，不替代统一实验验证。
+Ga,Li-site dopant,高,稳定立方相并提高电导,中,立方相稳定,Li-site dopant;高;稳定立方相并提高电导;中;立方相稳定,S14,标签用于候选解释，不替代统一实验验证。
+Nb,Zr-site dopant,高,提升致密化和离子电导,中,电荷补偿,Zr-site dopant;高;提升致密化和离子电导;中;电荷补偿,"S10,S11",标签用于候选解释，不替代统一实验验证。
+Ba,La-site dopant,中,改变晶格与烧结窗口,中,晶格调控,La-site dopant;中;改变晶格与烧结窗口;中;晶格调控,"S12,S16",标签用于候选解释，不替代统一实验验证。
+Ca,La-site dopant,中,改变局部结构与界面,低,晶格调控,La-site dopant;中;改变局部结构与界面;低;晶格调控,"S12,S16",标签用于候选解释，不替代统一实验验证。
+Sr,La-site dopant,中,改变晶格与相稳定性,低,晶格调控,La-site dopant;中;改变晶格与相稳定性;低;晶格调控,"S12,S16",标签用于候选解释，不替代统一实验验证。
+Y,Zr-site dopant,中,改变迁移路径,中,晶格调控,Zr-site dopant;中;改变迁移路径;中;晶格调控,"S03,S16",标签用于候选解释，不替代统一实验验证。
+Te,Zr-site dopant,中高,电荷补偿与相稳定,中高,电价调控,Zr-site dopant;中高;电荷补偿与相稳定;中高;电价调控,S16,标签用于候选解释，不替代统一实验验证。
+W,Zr-site dopant,中高,调控晶格与致密化,高,电价调控,Zr-site dopant;中高;调控晶格与致密化;高;电价调控,S16,标签用于候选解释，不替代统一实验验证。
+Sb,Zr-site dopant,中高,改变局部配位,中高,电价调控,Zr-site dopant;中高;改变局部配位;中高;电价调控,S16,标签用于候选解释，不替代统一实验验证。
+Bi,Zr-site dopant,高,改变晶格与烧结,高,重元素取代,Zr-site dopant;高;改变晶格与烧结;高;重元素取代,S16,标签用于候选解释，不替代统一实验验证。

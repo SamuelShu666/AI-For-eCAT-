@@ -1,0 +1,9 @@
+﻿rule_id,source_type,rule_type,rule_text,threshold,applies_to,evidence_chunk,status,note
+OER-R01,scenario_scope,组成边界,当前低铱候选池仅纳入金属前驱体中 Ir 比例大于0且不超过10%的记录。,0 < Ir precursor fraction ≤ 10%,candidate_space,D01,本场景定义,这是候选池筛选规则，不代表所有OER催化剂都必须低于10%。
+OER-R02,dataset,主指标,催化活性以10 mA cm⁻²几何电流密度下的过电位η10比较，越低越好。,10 mA cm⁻²,activity_metric,D01,已确认,必须保留几何电流密度口径。
+OER-R03,literature,数据质量,活性候选池采用DASH高影响因子、引用强度或近期发表规则筛选。,IF≥10 或 citation/day≥0.025 或 ≤365天,source_filter,R01_p6,已确认,这是文献数据质量筛选，不是实验协议一致性证明。
+OER-R04,dataset,可比性,不同电解质浓度、催化剂负载、扫描速率、基底或电极类型的η10不得无条件视为同一标准下的公平排名。,必须展示测试条件,comparison,R01_p26,已确认,页面应提供条件筛选或组内比较。
+OER-R05,literature,稳定性,稳定性以时间平均电压衰减率作为代理指标，越低越稳定。,"log(decay rate, mV h⁻¹)",stability_metric,R01_p26,已确认,仅25个当前候选具有可匹配的稳定性记录，缺失值不得视为稳定。
+OER-R06,literature,稳定性风险,活性提升可能伴随Ir/Ru溶解和表面重构，必须把活性与稳定性并列展示。,活性+稳定性双指标,candidate_decision,R06_p2,已确认,来源：Alia 2016；DASH也发现高活性与失稳机制相关。
+OER-R07,literature,安全/验证,没有ICP-MS溶出、S-number或长期恒电流证据时，不得宣称低铱催化剂已具备工业稳定性。,需直接稳定性证据,stability_claim,R07_p1,已确认,在UI中将stability_record_count<1的候选标记为未验证。
+OER-R08,project_boundary,口径,Ir precursor fraction是前驱体金属比例，不等于最终表面Ir含量或贵金属载量。,precursor vs surface vs loading,ir_metric,D01,已确认,页面必须使用“前驱体Ir比例”全称。

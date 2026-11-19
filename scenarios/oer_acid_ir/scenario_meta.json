@@ -1,0 +1,52 @@
+{
+  "id": "oer_acid_ir",
+  "index": "02",
+  "category": "materials",
+  "category_label": "材料研发",
+  "title": "PEM 酸性析氧低铱催化剂寻优",
+  "subtitle": "114条高质量酸性OER文献记录 · η10与Ir用量双目标",
+  "status": "preview_ready",
+  "status_label": "真实数据预览可用",
+  "target_metric": "η10 / Ir precursor fraction",
+  "target_direction": "η10越低越好；Ir前驱体比例越低越好",
+  "rig_name": "RDE三电极半电池 + PEM单电池测试 + ICP-MS溶出监测",
+  "knowledge_base": "534篇文献数字化 · 1847活性/453稳定性记录 · 8篇核心全文",
+  "budget": "114个文献候选 · 20轮演示预算",
+  "best_outcome": "文献中最低η10 165mV；4个η10–Ir Pareto候选；超低Ir代表0.017% + 240mV",
+  "gain_highlight": "4 Pareto",
+  "subgraphs": [
+    "酸性OER文献子图",
+    "候选—Ir用量—活性子图",
+    "活性/稳定性机理子图"
+  ],
+  "workflow_preview": [
+    {
+      "step": "文献挖掘与筛选",
+      "detail": "从高影响/高引用酸性OER记录中筛选Ir≤10%候选"
+    },
+    {
+      "step": "低Ir候选设计",
+      "detail": "在η10、Ir用量和稳定性之间形成多目标决策"
+    },
+    {
+      "step": "规则与条件校验",
+      "detail": "区分前驱体比例、负载、电解质和电极结构"
+    },
+    {
+      "step": "反馈与记忆写回",
+      "detail": "写回活性、稳定性和失效机理，指导下一轮候选"
+    }
+  ],
+  "data_level": "preview",
+  "bundle_id": "oer_acid_ir",
+  "dataset_rows": 114,
+  "source_cell_count": 114,
+  "source_record_count": 1847,
+  "source_paper_count": 50,
+  "paper_count": 8,
+  "evidence_count": 16,
+  "run_count": 0,
+  "source_owner": "eCAT团队",
+  "last_updated": "2026-11-19",
+  "data_status": "114条高质量低Ir文献候选与核心机理证据已接入；尚无本项目Agent运行日志"
+}

@@ -1,0 +1,16 @@
+﻿factor,activity_effect,stability_effect,cost_effect,role,evidence,confidence
+Ir,贵金属主活性元素,高活性、高稳定性,稀缺且昂贵,低载量分散与载体稳定化,R01,medium_high
+Ru,活性主元,高活性,易溶出，稳定性低于Ir,Ir-Ru协同和氧化态稳定,R01,medium_high
+Sr,结构/助剂元素,常参与高活性Ir基钙钛矿,表面浸出与重构,需要与Ir构型协同,R01,medium_high
+Co,3d过渡金属,可与Ir形成氧化物/单原子位点,Co价态决定表面重构,控制Co氧化态,R01,medium_high
+Mn,掺杂元素,可调节电子结构,可能促进非贵金属重构,与Ru/Ir搭配,R01,medium_high
+Ti,载体/稳定元素,常作为耐酸氧化物载体,影响导电与表面浸出,载体作用优先,R01,medium_high
+Ta,耐酸掺杂元素,提高结构稳定性,可能降低活性,需活性-稳定性折中,R01,medium_high
+W,酸性稳定掺杂元素,调节Ir表面活性,高比例可能降低活性,Ir-W系,R01,medium_high
+Ca,结构修饰元素,在高活性Ru基氧化物中频繁出现,可能影响表面稳定性,DASH实验批次中出现于高效样品,R01,medium_high
+Pr,稀土掺杂元素,可改变电子结构,作用依赖体系,DASH发现Ru-Mn-Ca-Pr候选,R01,medium_high
+annealing_temperature,合成温度,400/500°C附近兼顾结晶与表面活性,过低或过高均可能不利,保持观测范围,R01,medium_high
+ir_precursor_fraction,Ir用量,通常越高，活性上限越高,成本随Ir上升,越低越好但受活性约束,R01,medium_high
+electrolyte_h_conc,酸性强度,改变反应动力学与溶解,不可跨浓度直接比较,固定0.1或1M分组,R01,medium_high
+catalyst_loading,负载量,影响质量活性与表观活性,过厚会埋没活性位点,报告质量活性时需记录,R01,medium_high
+support_material,载体,影响电子传导与分散,影响Ir溶解与稳定性,氧化物载体不可忽略,R01,medium_high
